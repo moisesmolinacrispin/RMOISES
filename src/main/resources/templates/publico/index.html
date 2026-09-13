@@ -16,6 +16,22 @@
     <link rel="stylesheet"
           th:href="@{/css/publico.css}">
 
+    <!-- Estilos rápidos en línea para ajustar la sección hero a una sola pantalla -->
+    <style>
+        .hero {
+            min-height: calc(100vh - 70px) !important;
+            height: auto !important;
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+            display: flex;
+            align-items: center;
+        }
+        .hero-container {
+            transform: scale(0.92);
+            transform-origin: top center;
+        }
+    </style>
+
 </head>
 
 <body>
