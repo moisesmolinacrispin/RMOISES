@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Semanas | MOLINA CRISPIN, Moises</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: #080b12;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* =====================================================
+       PÁGINA
+       ===================================================== */
+
+    .page {
+      min-height: 100vh;
+
+      background:
+              radial-gradient(
+                      circle at 85% 5%,
+                      rgba(66, 232, 255, .07),
+                      transparent 25%
+              ),
+              radial-gradient(
+                      circle at 45% 90%,
+                      rgba(124, 255, 107, .05),
+                      transparent 30%
+              );
+    }
+
+    .main {
+      margin-left: 250px;
+      min-height: 100vh;
+    }
+
+    /* =====================================================
+       TOPBAR
+       ===================================================== */
+
+    .topbar {
+      height: 82px;
+      padding: 0 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: rgba(8, 11, 18, .88);
+
+      border-bottom:
+              1px solid rgba(255,255,255,.07);
+
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      backdrop-filter: blur(15px);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .topbar-mark {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border:
+              1px solid rgba(124,255,107,.4);
+
+      color: #7cff6b;
+
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .topbar-left h1 {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .topbar-left span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: #697587;
+      font-size: 12px;
+    }
+
+    .admin {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .admin-info {
+      text-align: right;
+    }
+
+    .admin-name {
+      display: block;
+
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .admin-role {
+      display: block;
+
+      margin-top: 4px;
+
+      color: #697587;
+      font-size: 11px;
+    }
+
+    .avatar {
+      width: 43px;
+      height: 43px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background:
+              linear-gradient(
+                      135deg,
+                      #7cff6b,
+                      #42e8ff
+              );
+
+      color: #080b12;
+
+      font-size: 15px;
+      font-weight: 900;
+
+      box-shadow:
+              0 0 25px rgba(124,255,107,.15);
+    }
+
+    /* =====================================================
+       CONTENIDO
+       ===================================================== */
+
+    .content {
+      padding: 45px 40px 70px;
+
+      max-width: 1450px;
+    }
+
+    .header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      gap: 30px;
+
+      margin-bottom: 35px;
+    }
+
+    .header-label {
+      display: block;
+
+      color: #7cff6b;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      letter-spacing: 4px;
+
+      margin-bottom: 12px;
+    }
+
+    .header h2 {
+      font-size: clamp(30px, 4vw, 46px);
+
+      line-height: 1.05;
+
+      letter-spacing: -2px;
+
+      margin-bottom: 14px;
+    }
+
+    .header h2 span {
+      color: #7cff6b;
+    }
+
+    .header p {
+      max-width: 650px;
+
+      color: #7d8999;
+
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* =====================================================
+       BOTÓN NUEVA SEMANA
+       ===================================================== */
+
+    .btn-nuevo {
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      padding: 13px 20px;
+
+      background: #7cff6b;
+
+      color: #080b12;
+
+      text-decoration: none;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      white-space: nowrap;
+
+      transition: .3s;
+    }
+
+    .btn-nuevo:hover {
+
+      background: #a0ff92;
+
+      transform: translateY(-3px);
+
+      box-shadow:
+              0 10px 30px
+              rgba(124,255,107,.14);
+    }
+
+    /* =====================================================
+       TABLA
+       ===================================================== */
+
+    .tabla-container {
+
+      position: relative;
+
+      background:
+              linear-gradient(
+                      145deg,
+                      #10151e,
+                      #0c1017
+              );
+
+      border:
+              1px solid rgba(255,255,255,.07);
+
+      padding: 25px;
+
+      overflow-x: auto;
+    }
+
+    .tabla-container::before {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 65px;
+      height: 2px;
+
+      background:
+              linear-gradient(
+                      90deg,
+                      #7cff6b,
+                      transparent
+              );
+    }
+
+    table {
+
+      width: 100%;
+
+      border-collapse: collapse;
+
+      min-width: 850px;
+    }
+
+    /* =====================================================
+       CABECERA TABLA
+       ===================================================== */
+
+    thead {
+
+      background:
+              rgba(255,255,255,.025);
+    }
+
+    th {
+
+      padding: 16px;
+
+      color: #687486;
+
+      text-align: left;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.5px;
+
+      font-weight: 800;
+
+      border-bottom:
+              1px solid rgba(255,255,255,.08);
+    }
+
+    /* =====================================================
+       CELDAS
+       ===================================================== */
+
+    td {
+
+      padding: 18px 16px;
+
+      color: #9ba5b3;
+
+      font-size: 13px;
+
+      border-bottom:
+              1px solid rgba(255,255,255,.055);
+
+      vertical-align: middle;
+    }
+
+    tbody tr {
+
+      transition:
+              background .25s ease;
+    }
+
+    tbody tr:hover {
+
+      background:
+              rgba(124,255,107,.025);
+    }
+
+    tbody tr:last-child td {
+
+      border-bottom: none;
+    }
+
+    /* =====================================================
+       NÚMERO DE SEMANA
+       ===================================================== */
+
+    .numero {
+
+      width: 70px;
+
+      color: #7cff6b;
+
+      font-size: 20px;
+
+      font-weight: 900;
+
+      font-family: monospace;
+    }
+
+    .numero::before {
+
+      content: "W";
+
+      margin-right: 3px;
+
+      color: #3f4b5b;
+
+      font-size: 10px;
+
+      vertical-align: middle;
+    }
+
+    /* =====================================================
+       TÍTULO
+       ===================================================== */
+
+    td:nth-child(2) {
+
+      color: #ffffff;
+
+      font-weight: 700;
+
+      min-width: 200px;
+    }
+
+    /* =====================================================
+       DESCRIPCIÓN
+       ===================================================== */
+
+    td:nth-child(3) {
+
+      max-width: 450px;
+
+      color: #687486;
+
+      line-height: 1.6;
+    }
+
+    /* =====================================================
+       ACCIONES
+       ===================================================== */
+
+    .acciones {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 7px;
+
+      flex-wrap: wrap;
+    }
+
+    .btn {
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 9px 12px;
+
+      border: 1px solid transparent;
+
+      text-decoration: none;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      transition: .3s;
+
+      white-space: nowrap;
+    }
+
+    /* TRABAJOS */
+
+    .btn-trabajos {
+
+      background:
+              rgba(66,232,255,.07);
+
+      border-color:
+              rgba(66,232,255,.18);
+
+      color: #42e8ff;
+    }
+
+    .btn-trabajos:hover {
+
+      background:
+              rgba(66,232,255,.14);
+
+      border-color:
+              rgba(66,232,255,.4);
+
+      transform: translateY(-2px);
+    }
+
+    /* EDITAR */
+
+    .btn-editar {
+
+      background:
+              rgba(124,255,107,.06);
+
+      border-color:
+              rgba(124,255,107,.18);
+
+      color: #7cff6b;
+    }
+
+    .btn-editar:hover {
+
+      background:
+              rgba(124,255,107,.13);
+
+      border-color:
+              rgba(124,255,107,.4);
+
+      transform: translateY(-2px);
+    }
+
+    /* ELIMINAR */
+
+    .btn-eliminar {
+
+      background:
+              rgba(255,80,80,.06);
+
+      border-color:
+              rgba(255,80,80,.16);
+
+      color: #ff7777;
+    }
+
+    .btn-eliminar:hover {
+
+      background:
+              rgba(255,80,80,.13);
+
+      border-color:
+              rgba(255,80,80,.35);
+
+      transform: translateY(-2px);
+    }
+
+    /* =====================================================
+       SIN SEMANAS
+       ===================================================== */
+
+    .vacio {
+
+      text-align: center;
+
+      padding: 60px 30px;
+
+      color: #596575;
+
+      font-size: 13px;
+    }
+
+    .vacio::before {
+
+      content: "◫";
+
+      display: block;
+
+      margin-bottom: 15px;
+
+      color: #7cff6b;
+
+      font-size: 28px;
+    }
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
+    .footer {
+
+      margin-top: 30px;
+
+      padding-top: 22px;
+
+      border-top:
+              1px solid rgba(255,255,255,.06);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      color: #465161;
+
+      font-size: 10px;
+    }
+
+    .footer strong {
+
+      color: #7cff6b;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+
+    @media (max-width: 900px) {
+
+      .main {
+        margin-left: 200px;
+      }
+
+      .content {
+        padding: 30px 25px 50px;
+      }
+
+      .header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .main {
+        margin-left: 0;
+      }
+
+      .topbar {
+
+        height: 70px;
+
+        padding: 0 18px;
+      }
+
+      .topbar-mark {
+        display: none;
+      }
+
+      .topbar-left h1 {
+        font-size: 18px;
+      }
+
+      .topbar-left span {
+        display: none;
+      }
+
+      .admin-info {
+        display: none;
+      }
+
+      .content {
+
+        padding: 25px 16px 45px;
+      }
+
+      .header h2 {
+
+        font-size: 32px;
+      }
+
+      .tabla-container {
+
+        padding: 15px;
+      }
+
+      .footer {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 8px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+
+  <!-- =====================================================
+       SIDEBAR
+       ===================================================== -->
+
+  <div th:replace="~{fragments/sidebar :: sidebar('semanas')}"></div>
+
+
+  <!-- =====================================================
+       CONTENIDO PRINCIPAL
+       ===================================================== -->
+
+  <main class="main">
+
+
+    <!-- =================================================
+         TOPBAR
+         ================================================= -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <div class="topbar-mark">
+          M
+        </div>
+
+        <div>
+
+          <h1>
+            Semanas
+          </h1>
+
+          <span>
+                        Gestión académica · Portafolio
+                    </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="admin">
+
+        <div class="admin-info">
+
+                    <span class="admin-name">
+                        Moises
+                    </span>
+
+          <span class="admin-role">
+                        Administrador
+                    </span>
+
+        </div>
+
+        <div class="avatar">
+          M
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- =================================================
+         CONTENIDO
+         ================================================= -->
+
+    <section class="content">
+
+
+      <!-- =================================================
+           ENCABEZADO
+           ================================================= -->
+
+      <div class="header">
+
+        <div>
+
+                    <span class="header-label">
+                        APRENDIZAJE ACADÉMICO
+                    </span>
+
+          <h2>
+            Mis
+            <span>semanas.</span>
+          </h2>
+
+          <p>
+            Administra las 16 semanas de tu portafolio
+            académico. Desde aquí puedes crear, editar
+            y organizar los trabajos correspondientes
+            a cada semana.
+          </p>
+
+        </div>
+
+
+        <!-- NUEVA SEMANA -->
+
+        <a
+                href="/admin/semanas/nuevo"
+                class="btn-nuevo">
+
+          ➕ Nueva semana
+
+        </a>
+
+      </div>
+
+
+      <!-- =================================================
+           TABLA
+           ================================================= -->
+
+      <div class="tabla-container">
+
+        <table>
+
+          <thead>
+
+          <tr>
+
+            <th>
+              #
+            </th>
+
+            <th>
+              Título
+            </th>
+
+            <th>
+              Descripción
+            </th>
+
+            <th>
+              Acciones
+            </th>
+
+          </tr>
+
+          </thead>
+
+
+          <tbody>
+
+
+          <!-- =================================================
+               RECORRER SEMANAS
+               ================================================= -->
+
+          <tr
+                  th:each="semana : ${semanas}">
+
+
+            <!-- NÚMERO -->
+
+            <td
+                    class="numero"
+                    th:text="${semana.numero}">
+
+              1
+
+            </td>
+
+
+            <!-- TÍTULO -->
+
+            <td
+                    th:text="${semana.titulo}">
+
+              Semana 1
+
+            </td>
+
+
+            <!-- DESCRIPCIÓN -->
+
+            <td
+                    th:text="${semana.descripcion}">
+
+              Descripción de la semana
+
+            </td>
+
+
+            <!-- =================================================
+                 ACCIONES
+                 ================================================= -->
+
+            <td>
+
+              <div class="acciones">
+
+
+                <!-- TRABAJOS -->
+
+                <a
+                        class="btn btn-trabajos"
+                        th:href="@{/admin/trabajos/semana/{id}(id=${semana.id})}">
+
+                  📚 Trabajos
+
+                </a>
+
+
+                <!-- EDITAR -->
+
+                <a
+                        class="btn btn-editar"
+                        th:href="@{/admin/semanas/editar/{id}(id=${semana.id})}">
+
+                  ✏️ Editar
+
+                </a>
+
+
+                <!-- ELIMINAR -->
+
+                <a
+                        class="btn btn-eliminar"
+                        th:href="@{/admin/semanas/eliminar/{id}(id=${semana.id})}"
+                        onclick="return confirm('¿Seguro que deseas eliminar esta semana?');">
+
+                  🗑️ Eliminar
+
+                </a>
+
+
+              </div>
+
+            </td>
+
+          </tr>
+
+
+          <!-- =================================================
+               SIN SEMANAS
+               ================================================= -->
+
+          <tr
+                  th:if="${#lists.isEmpty(semanas)}">
+
+            <td
+                    colspan="4"
+                    class="vacio">
+
+              No existen semanas registradas.
+
+            </td>
+
+          </tr>
+
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- =================================================
+           FOOTER
+           ================================================= -->
+
+      <div class="footer">
+
+                <span>
+                    PORTAFOLIO · ADMIN PANEL · 2026
+                </span>
+
+        <span>
+
+                    <strong>
+                        MOLINA CRISPIN
+                    </strong>
+
+                    · Moises
+
+                </span>
+
+      </div>
+
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+
+</html>

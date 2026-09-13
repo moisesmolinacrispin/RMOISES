@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Ver mensaje | Admin</title>
+
+    <style>
+
+        /* =====================================================
+           BASE
+           ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #080b12;
+            color: #f2f5f7;
+        }
+
+        .admin-container {
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           CONTENIDO PRINCIPAL
+           ===================================================== */
+
+        .main-content {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            padding: 30px 38px 50px;
+
+            background:
+                    radial-gradient(
+                            circle at 80% 10%,
+                            rgba(66, 232, 255, 0.05),
+                            transparent 28%
+                    ),
+                    #080b12;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+           ===================================================== */
+
+        .topbar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            height: 68px;
+
+            margin-bottom: 38px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid rgba(124, 255, 107, 0.12);
+        }
+
+        .topbar-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+        .brand-mark {
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid #7cff6b;
+
+            border-radius: 10px;
+
+            color: #7cff6b;
+
+            font-weight: 900;
+
+            font-size: 16px;
+
+            box-shadow:
+                    0 0 18px rgba(124, 255, 107, 0.12);
+        }
+
+        .topbar-title {
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+
+            color: #8d99aa;
+        }
+
+        .topbar-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .admin-name {
+
+            color: #c8d0db;
+
+            font-size: 14px;
+        }
+
+        .admin-avatar {
+
+            width: 36px;
+            height: 36px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #101720;
+
+            border: 1px solid rgba(66, 232, 255, 0.35);
+
+            color: #42e8ff;
+
+            font-weight: bold;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           CABECERA
+           ===================================================== */
+
+        .admin-header {
+
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+
+            display: inline-block;
+
+            margin-bottom: 10px;
+
+            color: #7cff6b;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+        }
+
+        .admin-header h1 {
+
+            margin: 0 0 9px;
+
+            font-size: clamp(30px, 4vw, 45px);
+
+            line-height: 1;
+
+            color: #f4f7fa;
+
+            letter-spacing: -1.5px;
+        }
+
+        .admin-header h1 span {
+
+            color: #7cff6b;
+        }
+
+        .admin-header p {
+
+            margin: 0;
+
+            color: #697587;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           TARJETA PRINCIPAL
+           ===================================================== */
+
+        .content-card {
+
+            position: relative;
+
+            max-width: 1000px;
+
+            background: #10151e;
+
+            border: 1px solid rgba(124, 255, 107, 0.10);
+
+            border-radius: 16px;
+
+            padding: 30px;
+
+            box-shadow:
+                    0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .content-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 28px;
+            right: 28px;
+
+            height: 1px;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            transparent,
+                            #7cff6b,
+                            #42e8ff,
+                            transparent
+                    );
+
+            opacity: 0.45;
+        }
+
+
+        /* =====================================================
+           IDENTIFICADOR
+           ===================================================== */
+
+        .message-tag {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 8px;
+
+            color: #697587;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+        }
+
+        .message-tag::before {
+
+            content: "";
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #7cff6b;
+
+            box-shadow:
+                    0 0 12px rgba(124, 255, 107, 0.7);
+        }
+
+
+        /* =====================================================
+           DETALLE DEL MENSAJE
+           ===================================================== */
+
+        .message-detail {
+
+            max-width: 900px;
+        }
+
+        .detail-item {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+
+            padding: 20px 0;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .detail-label {
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            color: #697587;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+        }
+
+        .detail-item strong {
+
+            font-size: 17px;
+
+            color: #f2f5f7;
+
+            font-weight: 600;
+        }
+
+        .detail-item span:not(.detail-label) {
+
+            color: #aeb8c5;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           CORREO
+           ===================================================== */
+
+        .detail-item a {
+
+            color: #42e8ff;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+        }
+
+        .detail-item a:hover {
+
+            color: #7cff6b;
+
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           MENSAJE
+           ===================================================== */
+
+        .detail-message {
+
+            padding: 24px 0 5px;
+        }
+
+        .message-content {
+
+            margin-top: 12px;
+
+            padding: 22px;
+
+            background: #0b1017;
+
+            border: 1px solid rgba(66, 232, 255, 0.10);
+
+            border-left: 2px solid #7cff6b;
+
+            border-radius: 10px;
+
+            color: #c1cad5;
+
+            line-height: 1.8;
+
+            font-size: 14px;
+
+            white-space: pre-wrap;
+
+            min-height: 150px;
+
+            box-shadow:
+                    inset 0 0 25px rgba(0, 0, 0, 0.15);
+        }
+
+
+        /* =====================================================
+           FECHA
+           ===================================================== */
+
+        .date-value {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .date-value::before {
+
+            content: "◷";
+
+            color: #42e8ff;
+
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           BOTONES
+           ===================================================== */
+
+        .detail-actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 25px;
+
+            flex-wrap: wrap;
+        }
+
+        .detail-actions .btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 12px 18px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: 0.2s ease;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           VOLVER
+           ===================================================== */
+
+        .btn-secondary {
+
+            background: #0b1017;
+
+            color: #aeb8c5;
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .btn-secondary:hover {
+
+            color: #f2f5f7;
+
+            border-color: rgba(66, 232, 255, 0.35);
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           RESPONDER
+           ===================================================== */
+
+        .btn-primary {
+
+            background: #7cff6b;
+
+            color: #071009;
+
+            border: 1px solid #7cff6b;
+
+            box-shadow:
+                    0 0 20px rgba(124, 255, 107, 0.10);
+        }
+
+        .btn-primary:hover {
+
+            background: #8dff7d;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                    0 0 25px rgba(124, 255, 107, 0.22);
+        }
+
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        .admin-footer {
+
+            margin-top: 45px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+            color: #4f5a69;
+
+            font-size: 10px;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .main-content {
+
+                margin-left: 220px;
+
+                padding: 25px;
+            }
+
+            .content-card {
+
+                padding: 25px;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            .main-content {
+
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+            .topbar {
+
+                margin-bottom: 30px;
+            }
+
+            .admin-name {
+
+                display: none;
+            }
+
+            .admin-header h1 {
+
+                font-size: 32px;
+            }
+
+            .content-card {
+
+                padding: 22px;
+            }
+
+            .detail-actions {
+
+                flex-direction: column;
+            }
+
+            .detail-actions .btn {
+
+                width: 100%;
+            }
+        }
+
+
+        @media (max-width: 450px) {
+
+            .main-content {
+
+                padding: 16px;
+            }
+
+            .content-card {
+
+                padding: 18px;
+            }
+
+            .admin-header h1 {
+
+                font-size: 28px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="admin-container">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <div th:replace="~{fragments/sidebar :: sidebar('mensajes')}"></div>
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+         ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOPBAR
+             ================================================= -->
+
+        <div class="topbar">
+
+            <div class="topbar-left">
+
+                <div class="brand-mark">
+                    M
+                </div>
+
+                <div class="topbar-title">
+                    Mensajes
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <span class="admin-name">
+                    Moises
+                </span>
+
+                <div class="admin-avatar">
+                    M
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CABECERA
+             ================================================= -->
+
+        <header class="admin-header">
+
+            <span class="eyebrow">
+                MESSAGE / DETAIL
+            </span>
+
+            <h1>
+                Ver <span>mensaje.</span>
+            </h1>
+
+            <p>
+                Consulta los detalles del mensaje recibido.
+            </p>
+
+        </header>
+
+
+        <!-- =================================================
+             TARJETA
+             ================================================= -->
+
+        <section class="content-card">
+
+
+            <div class="message-tag">
+                MESSAGE RECEIVED
+            </div>
+
+
+            <div class="message-detail">
+
+
+                <!-- =================================================
+                     REMITENTE
+                     ================================================= -->
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        Nombre
+                    </span>
+
+                    <strong
+                            th:text="${mensaje.nombre}">
+                        Nombre
+                    </strong>
+
+                </div>
+
+
+                <!-- =================================================
+                     CORREO
+                     ================================================= -->
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        Correo electrónico
+                    </span>
+
+                    <a
+                            th:href="'mailto:' + ${mensaje.correo}"
+                            th:text="${mensaje.correo}">
+
+                        correo@example.com
+
+                    </a>
+
+                </div>
+
+
+                <!-- =================================================
+                     ASUNTO
+                     ================================================= -->
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        Asunto
+                    </span>
+
+                    <strong
+                            th:text="${mensaje.asunto}">
+                        Asunto
+                    </strong>
+
+                </div>
+
+
+                <!-- =================================================
+                     FECHA
+                     ================================================= -->
+
+                <div class="detail-item">
+
+                    <span class="detail-label">
+                        Fecha
+                    </span>
+
+                    <span
+                            class="date-value"
+                            th:if="${mensaje.fecha != null}"
+                            th:text="${#temporals.format(
+                                mensaje.fecha,
+                                'dd/MM/yyyy HH:mm'
+                            )}">
+
+                        06/09/2026 18:00
+
+                    </span>
+
+                    <span
+                            th:if="${mensaje.fecha == null}">
+
+                        Sin fecha
+
+                    </span>
+
+                </div>
+
+
+                <!-- =================================================
+                     MENSAJE
+                     ================================================= -->
+
+                <div class="detail-message">
+
+                    <span class="detail-label">
+                        Contenido del mensaje
+                    </span>
+
+                    <div class="message-content"
+                         th:text="${mensaje.mensaje}">
+
+                        Contenido del mensaje
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     BOTONES
+                     ================================================= -->
+
+                <div class="detail-actions">
+
+
+                    <!-- VOLVER -->
+
+                    <a
+                            th:href="@{/admin/mensajes}"
+                            class="btn btn-secondary">
+
+                        ← Volver a mensajes
+
+                    </a>
+
+
+                    <!-- RESPONDER -->
+
+                    <a
+                            th:href="'mailto:' + ${mensaje.correo}"
+                            class="btn btn-primary">
+
+                        ✉ Responder por correo
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FOOTER
+             ================================================= -->
+
+        <footer class="admin-footer">
+
+            MOLINA CRISPIN · Moises
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

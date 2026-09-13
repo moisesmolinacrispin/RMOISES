@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Dashboard | MOLINA CRISPIN, Moises
+    </title>
+
+    <style>
+
+        /* =====================================================
+           RESET
+           ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                    Inter,
+                    Arial,
+                    Helvetica,
+                    sans-serif;
+
+            background: #080b12;
+
+            color: #ffffff;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =====================================================
+           DASHBOARD
+           ===================================================== */
+
+        .dashboard {
+
+            min-height: 100vh;
+
+            background:
+                    radial-gradient(
+                            circle at 85% 5%,
+                            rgba(66, 232, 255, .07),
+                            transparent 25%
+                    ),
+                    radial-gradient(
+                            circle at 50% 90%,
+                            rgba(124, 255, 107, .05),
+                            transparent 30%
+                    );
+
+        }
+
+
+        /* =====================================================
+           CONTENIDO PRINCIPAL
+           ===================================================== */
+
+        .main {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            position: relative;
+
+        }
+
+
+        /* =====================================================
+           TOPBAR
+           ===================================================== */
+
+        .topbar {
+
+            height: 82px;
+
+            padding: 0 35px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background:
+                    rgba(8, 11, 18, .88);
+
+            border-bottom:
+                    1px solid rgba(255,255,255,.07);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+            backdrop-filter: blur(15px);
+
+        }
+
+
+        .topbar-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+        }
+
+
+        .topbar-mark {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border:
+                    1px solid rgba(124,255,107,.4);
+
+            color: #7cff6b;
+
+            font-size: 18px;
+
+            font-weight: 900;
+
+        }
+
+
+        .topbar-left h1 {
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            color: #ffffff;
+
+            letter-spacing: -.5px;
+
+        }
+
+
+        .topbar-left span {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color: #697587;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =====================================================
+           ADMIN
+           ===================================================== */
+
+        .admin {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+        }
+
+
+        .admin-info {
+
+            text-align: right;
+
+        }
+
+
+        .admin-name {
+
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+        }
+
+
+        .admin-role {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color: #697587;
+
+            font-size: 11px;
+
+        }
+
+
+        .avatar {
+
+            width: 43px;
+
+            height: 43px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #7cff6b,
+                            #42e8ff
+                    );
+
+            color: #080b12;
+
+            font-size: 15px;
+
+            font-weight: 900;
+
+            box-shadow:
+                    0 0 25px rgba(124,255,107,.15);
+
+        }
+
+
+        /* =====================================================
+           CONTENIDO
+           ===================================================== */
+
+        .content {
+
+            padding: 45px 40px 70px;
+
+            max-width: 1500px;
+
+        }
+
+
+        /* =====================================================
+           HERO DEL DASHBOARD
+           ===================================================== */
+
+        .dashboard-intro {
+
+            display: grid;
+
+            grid-template-columns: 1fr auto;
+
+            align-items: end;
+
+            gap: 30px;
+
+            margin-bottom: 42px;
+
+        }
+
+
+        .intro-label {
+
+            display: block;
+
+            color: #7cff6b;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .welcome h2 {
+
+            font-size: clamp(30px, 4vw, 48px);
+
+            line-height: 1.05;
+
+            letter-spacing: -2px;
+
+            color: #ffffff;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .welcome h2 span {
+
+            color: #7cff6b;
+
+        }
+
+
+        .welcome p {
+
+            max-width: 650px;
+
+            color: #7d8999;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+        }
+
+
+        .system-status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding: 11px 15px;
+
+            border:
+                    1px solid rgba(124,255,107,.18);
+
+            background:
+                    rgba(124,255,107,.035);
+
+            color: #8995a5;
+
+            font-size: 11px;
+
+            white-space: nowrap;
+
+        }
+
+
+        .status-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #7cff6b;
+
+            box-shadow:
+                    0 0 12px rgba(124,255,107,.8);
+
+        }
+
+
+        /* =====================================================
+           ESTADÍSTICAS
+           ===================================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        .stat-card {
+
+            min-height: 175px;
+
+            padding: 24px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                    linear-gradient(
+                            145deg,
+                            #10151e,
+                            #0b0f16
+                    );
+
+            border:
+                    1px solid rgba(255,255,255,.07);
+
+            transition:
+                    transform .35s ease,
+                    border-color .35s ease;
+
+        }
+
+
+        .stat-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+
+            height: 100px;
+
+            border-radius: 50%;
+
+            right: -45px;
+
+            bottom: -50px;
+
+            background:
+                    rgba(66,232,255,.04);
+
+        }
+
+
+        .stat-card:hover {
+
+            transform: translateY(-5px);
+
+            border-color:
+                    rgba(124,255,107,.3);
+
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .stat-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border: 1px solid rgba(255,255,255,.08);
+
+            font-size: 18px;
+
+        }
+
+
+        .icon-green {
+
+            background:
+                    rgba(124,255,107,.07);
+
+        }
+
+
+        .icon-cyan {
+
+            background:
+                    rgba(66,232,255,.07);
+
+        }
+
+
+        .icon-purple {
+
+            background:
+                    rgba(167,139,250,.07);
+
+        }
+
+
+        .icon-orange {
+
+            background:
+                    rgba(251,146,60,.07);
+
+        }
+
+
+        .stat-code {
+
+            color: #4d5868;
+
+            font-size: 10px;
+
+            font-family: monospace;
+
+        }
+
+
+        .stat-label {
+
+            color: #687486;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .stat-number {
+
+            color: #ffffff;
+
+            font-size: 34px;
+
+            line-height: 1;
+
+            font-weight: 900;
+
+        }
+
+
+        /* =====================================================
+           ÁREA PRINCIPAL
+           ===================================================== */
+
+        .dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                    minmax(0, 1.6fr)
+                    minmax(280px, .9fr);
+
+            gap: 20px;
+
+        }
+
+
+        /* =====================================================
+           PANELES
+           ===================================================== */
+
+        .panel {
+
+            background:
+                    linear-gradient(
+                            145deg,
+                            #10151e,
+                            #0c1017
+                    );
+
+            border:
+                    1px solid rgba(255,255,255,.07);
+
+            padding: 30px;
+
+            position: relative;
+
+        }
+
+
+        .panel::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+
+            left: 0;
+
+            width: 50px;
+
+            height: 2px;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            #7cff6b,
+                            transparent
+                    );
+
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .panel-header h3 {
+
+            color: #ffffff;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+        }
+
+
+        .panel-header span {
+
+            color: #4f5b6b;
+
+            font-family: monospace;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =====================================================
+           RESUMEN
+           ===================================================== */
+
+        .summary-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                    1fr 190px;
+
+            gap: 35px;
+
+            align-items: center;
+
+        }
+
+
+        .summary-text {
+
+            color: #7d8999;
+
+            font-size: 13px;
+
+            line-height: 1.9;
+
+            max-width: 650px;
+
+        }
+
+
+        .summary-number {
+
+            padding: 25px;
+
+            border:
+                    1px solid rgba(66,232,255,.15);
+
+            background:
+                    rgba(66,232,255,.025);
+
+            text-align: center;
+
+        }
+
+
+        .summary-number strong {
+
+            display: block;
+
+            color: #42e8ff;
+
+            font-size: 42px;
+
+            line-height: 1;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .summary-number span {
+
+            color: #687486;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        /* =====================================================
+           ESTADO MENSAJES
+           ===================================================== */
+
+        .message-status {
+
+            margin-top: 30px;
+
+            padding: 18px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            border:
+                    1px solid rgba(124,255,107,.12);
+
+            background:
+                    rgba(124,255,107,.025);
+
+        }
+
+
+        .message-status-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border:
+                    1px solid rgba(124,255,107,.25);
+
+            color: #7cff6b;
+
+        }
+
+
+        .message-status strong {
+
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .message-status p {
+
+            color: #687486;
+
+            font-size: 11px;
+
+        }
+
+
+        .message-status p strong {
+
+            display: inline;
+
+            color: #7cff6b;
+
+            font-size: inherit;
+
+        }
+
+
+        /* =====================================================
+           ACCIONES RÁPIDAS
+           ===================================================== */
+
+        .quick-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(2, 1fr);
+
+            gap: 10px;
+
+        }
+
+
+        .quick-action {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 13px;
+
+            padding: 17px;
+
+            min-height: 115px;
+
+            text-decoration: none;
+
+            border:
+                    1px solid rgba(255,255,255,.07);
+
+            background:
+                    rgba(255,255,255,.015);
+
+            transition: .3s;
+
+        }
+
+
+        .quick-action:hover {
+
+            border-color:
+                    rgba(66,232,255,.35);
+
+            background:
+                    rgba(66,232,255,.035);
+
+            transform: translateY(-3px);
+
+        }
+
+
+        .quick-icon {
+
+            width: 34px;
+
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border:
+                    1px solid rgba(255,255,255,.08);
+
+            font-size: 15px;
+
+        }
+
+
+        .quick-action strong {
+
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 12px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .quick-action small {
+
+            color: #596575;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =====================================================
+           LÍNEA INFERIOR
+           ===================================================== */
+
+        .dashboard-footer {
+
+            margin-top: 30px;
+
+            padding-top: 22px;
+
+            border-top:
+                    1px solid rgba(255,255,255,.06);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            color: #465161;
+
+            font-size: 10px;
+
+        }
+
+
+        .dashboard-footer strong {
+
+            color: #7cff6b;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 1150px) {
+
+            .stats {
+
+                grid-template-columns:
+                        repeat(2, 1fr);
+
+            }
+
+            .dashboard-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .main {
+
+                margin-left: 200px;
+
+            }
+
+            .content {
+
+                padding: 30px 22px 50px;
+
+            }
+
+            .dashboard-intro {
+
+                grid-template-columns: 1fr;
+
+                align-items: start;
+
+            }
+
+            .system-status {
+
+                width: fit-content;
+
+            }
+
+            .summary-layout {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .topbar {
+
+                height: 70px;
+
+                padding: 0 18px;
+
+            }
+
+            .topbar-mark {
+
+                display: none;
+
+            }
+
+            .topbar-left h1 {
+
+                font-size: 18px;
+
+            }
+
+            .topbar-left span {
+
+                display: none;
+
+            }
+
+            .admin-info {
+
+                display: none;
+
+            }
+
+            .stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .quick-actions {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .welcome h2 {
+
+                font-size: 32px;
+
+            }
+
+            .panel {
+
+                padding: 22px;
+
+            }
+
+            .dashboard-footer {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 8px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <div th:replace="~{fragments/sidebar :: sidebar('dashboard')}"></div>
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+         ===================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             TOPBAR
+             ================================================= -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <div class="topbar-mark">
+                    M
+                </div>
+
+                <div>
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                    <span>
+                        Centro de administración · Portafolio
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN -->
+
+            <div class="admin">
+
+                <div class="admin-info">
+
+                    <span class="admin-name">
+
+                        Moises
+
+                    </span>
+
+                    <span class="admin-role">
+
+                        Administrador
+
+                    </span>
+
+                </div>
+
+
+                <div class="avatar">
+                    M
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENIDO
+             ================================================= -->
+
+        <section class="content">
+
+
+            <!-- =================================================
+                 BIENVENIDA
+                 ================================================= -->
+
+            <div class="dashboard-intro">
+
+
+                <div class="welcome">
+
+                    <span class="intro-label">
+                        PANEL PRINCIPAL
+                    </span>
+
+
+                    <h2>
+
+                        Hola,
+                        <span>
+                            Moises.
+                        </span>
+
+                    </h2>
+
+
+                    <p>
+
+                        Administra tu portafolio académico,
+                        organiza tus semanas de aprendizaje,
+                        publica tus trabajos y revisa los
+                        mensajes recibidos.
+
+                    </p>
+
+                </div>
+
+
+                <!-- ESTADO -->
+
+                <div class="system-status">
+
+                    <span class="status-dot"></span>
+
+                    SISTEMA ACTIVO
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 ESTADÍSTICAS
+                 ================================================= -->
+
+            <div class="stats">
+
+
+                <!-- SEMANAS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon icon-green">
+                            ◫
+                        </div>
+
+                        <span class="stat-code">
+                            DATA_01
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-label">
+                        Semanas académicas
+                    </div>
+
+
+                    <div
+                            class="stat-number"
+                            th:text="${totalSemanas}">
+
+                        16
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRABAJOS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon icon-cyan">
+                            ◈
+                        </div>
+
+                        <span class="stat-code">
+                            DATA_02
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-label">
+                        Trabajos registrados
+                    </div>
+
+
+                    <div
+                            class="stat-number"
+                            th:text="${totalTrabajos}">
+
+                        0
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADMINISTRADORES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon icon-purple">
+                            ◎
+                        </div>
+
+                        <span class="stat-code">
+                            DATA_03
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-label">
+                        Administradores
+                    </div>
+
+
+                    <div class="stat-number">
+                        1
+                    </div>
+
+                </div>
+
+
+                <!-- MENSAJES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon icon-orange">
+                            ◇
+                        </div>
+
+                        <span class="stat-code">
+                            DATA_04
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-label">
+                        Mensajes recibidos
+                    </div>
+
+
+                    <div
+                            class="stat-number"
+                            th:text="${totalMensajes}">
+
+                        0
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 PANELES
+                 ================================================= -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- =================================================
+                     RESUMEN
+                     ================================================= -->
+
+                <div class="panel">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Resumen del portafolio
+                        </h3>
+
+                        <span>
+                            /overview
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-layout">
+
+
+                        <p class="summary-text">
+
+                            Este es el centro de control de tu
+                            portafolio académico. Desde aquí puedes
+                            administrar las 16 semanas de formación,
+                            agregar los trabajos realizados,
+                            actualizar tu información personal y
+                            controlar los mensajes enviados desde
+                            la página pública.
+
+                        </p>
+
+
+                        <div class="summary-number">
+
+                            <strong>
+                                16
+                            </strong>
+
+                            <span>
+                                Semanas planificadas
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- ESTADO MENSAJES -->
+
+                    <div class="message-status">
+
+
+                        <div class="message-status-icon">
+                            ◇
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Estado de mensajes
+                            </strong>
+
+                            <p>
+
+                                Tienes
+
+                                <strong
+                                        th:text="${mensajesNoLeidos}">
+                                    0
+                                </strong>
+
+                                mensajes pendientes de revisar.
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     ACCIONES RÁPIDAS
+                     ================================================= -->
+
+                <div class="panel">
+
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Acciones rápidas
+                        </h3>
+
+                        <span>
+                            /tools
+                        </span>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+
+                        <!-- PERFIL -->
+
+                        <a
+                                href="/admin/perfil"
+                                class="quick-action">
+
+                            <div class="quick-icon">
+                                ◎
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Mi perfil
+                                </strong>
+
+                                <small>
+                                    Editar información personal
+                                </small>
+
+                            </div>
+
+                        </a>
+
+
+                        <!-- SEMANAS -->
+
+                        <a
+                                href="/admin/semanas"
+                                class="quick-action">
+
+                            <div class="quick-icon">
+                                ◫
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Semanas
+                                </strong>
+
+                                <small>
+                                    Gestionar aprendizaje
+                                </small>
+
+                            </div>
+
+                        </a>
+
+
+                        <!-- TRABAJOS -->
+
+                        <a
+                                href="/admin/trabajos"
+                                class="quick-action">
+
+                            <div class="quick-icon">
+                                ◈
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Trabajos
+                                </strong>
+
+                                <small>
+                                    Administrar proyectos
+                                </small>
+
+                            </div>
+
+                        </a>
+
+
+                        <!-- MENSAJES -->
+
+                        <a
+                                href="/admin/mensajes"
+                                class="quick-action">
+
+                            <div class="quick-icon">
+                                ◇
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Mensajes
+                                </strong>
+
+                                <small>
+                                    Revisar mensajes recibidos
+                                </small>
+
+                            </div>
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 FOOTER
+                 ================================================= -->
+
+            <div class="dashboard-footer">
+
+                <span>
+
+                    PORTAFOLIO · ADMIN PANEL · 2026
+
+                </span>
+
+
+                <span>
+
+                    <strong>
+                        MOLINA CRISPIN
+                    </strong>
+
+                    ·
+
+                    Moises
+
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

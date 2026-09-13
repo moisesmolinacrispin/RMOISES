@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<aside class="sidebar"
+       th:fragment="sidebar(activePage)">
+
+    <!-- ==============================
+         CABECERA
+    ============================== -->
+
+    <div class="sidebar-header">
+
+        <div class="brand-icon">
+            P
+        </div>
+
+        <div class="brand-info">
+
+            <h2>PORTAFOLIO</h2>
+
+            <span>Panel administrativo</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         PERFIL ADMIN
+    ============================== -->
+
+    <div class="admin-card">
+
+        <div class="admin-avatar">
+            A
+        </div>
+
+        <div class="admin-info">
+
+            <strong>Administrador</strong>
+
+            <span>Panel de control</span>
+
+        </div>
+
+        <div class="online-dot"></div>
+
+    </div>
+
+
+    <!-- ==============================
+         NAVEGACIÓN
+    ============================== -->
+
+    <div class="menu-title">
+        MENÚ PRINCIPAL
+    </div>
+
+
+    <nav class="menu">
+
+
+        <!-- DASHBOARD -->
+
+        <a href="/admin"
+           class="menu-item"
+           th:classappend="${activePage == 'dashboard'} ? ' active' : ''">
+
+            <span class="menu-icon">
+                ▦
+            </span>
+
+            <span class="menu-text">
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- PERFIL -->
+
+        <a href="/admin/perfil"
+           class="menu-item"
+           th:classappend="${activePage == 'perfil'} ? ' active' : ''">
+
+            <span class="menu-icon">
+                ◉
+            </span>
+
+            <span class="menu-text">
+                Mi perfil
+            </span>
+
+        </a>
+
+
+        <!-- SEMANAS -->
+
+        <a href="/admin/semanas"
+           class="menu-item"
+           th:classappend="${activePage == 'semanas'} ? ' active' : ''">
+
+            <span class="menu-icon">
+                ▤
+            </span>
+
+            <span class="menu-text">
+                Semanas
+            </span>
+
+        </a>
+
+
+        <!-- TRABAJOS -->
+
+        <a href="/admin/trabajos"
+           class="menu-item"
+           th:classappend="${activePage == 'trabajos'} ? ' active' : ''">
+
+            <span class="menu-icon">
+                ◫
+            </span>
+
+            <span class="menu-text">
+                Trabajos
+            </span>
+
+        </a>
+
+
+        <!-- MENSAJES -->
+
+        <a href="/admin/mensajes"
+           class="menu-item"
+           th:classappend="${activePage == 'mensajes'} ? ' active' : ''">
+
+            <span class="menu-icon">
+                ✉
+            </span>
+
+            <span class="menu-text">
+                Mensajes
+            </span>
+
+            <!-- CONTADOR -->
+
+            <span
+                    class="message-badge"
+                    th:if="${mensajesNoLeidos != null && mensajesNoLeidos > 0}"
+                    th:text="${mensajesNoLeidos}">
+
+                0
+
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- ==============================
+         SEPARADOR
+    ============================== -->
+
+    <div class="sidebar-separator"></div>
+
+
+    <!-- ==============================
+         PARTE INFERIOR
+    ============================== -->
+
+    <div class="sidebar-bottom">
+
+        <div class="menu-title">
+            CUENTA
+        </div>
+
+
+        <!-- CERRAR SESIÓN -->
+
+        <form method="post"
+              action="/logout">
+
+            <button
+                    class="logout-button"
+                    type="submit">
+
+                <span class="menu-icon">
+                    ⇥
+                </span>
+
+                <span class="menu-text">
+                    Cerrar sesión
+                </span>
+
+            </button>
+
+        </form>
+
+
+        <!-- VERSION -->
+
+        <div class="sidebar-version">
+
+            <span>PORTAFOLIO ADMIN</span>
+
+            <small>v1.0</small>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         ESTILOS
+    ============================== -->
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        .sidebar,
+        .sidebar * {
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+
+            width: 270px;
+
+            height: 100vh;
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            z-index: 1000;
+
+            display: flex;
+
+            flex-direction: column;
+
+            padding: 25px 18px;
+
+            background:
+                    linear-gradient(
+                            180deg,
+                            #0b1120 0%,
+                            #111827 55%,
+                            #0f172a 100%
+                    );
+
+            color: #ffffff;
+
+            border-right: 1px solid rgba(255,255,255,0.06);
+
+            box-shadow:
+                    8px 0 30px rgba(0,0,0,0.12);
+
+            overflow-y: auto;
+
+            font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif;
+
+        }
+
+
+        /* =========================================
+           SCROLLBAR
+        ========================================= */
+
+        .sidebar::-webkit-scrollbar {
+
+            width: 5px;
+
+        }
+
+
+        .sidebar::-webkit-scrollbar-track {
+
+            background: transparent;
+
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb {
+
+            background: #334155;
+
+            border-radius: 20px;
+
+        }
+
+
+        /* =========================================
+           CABECERA / LOGO
+        ========================================= */
+
+        .sidebar-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 4px 8px 25px;
+
+        }
+
+
+        .brand-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #3b82f6,
+                            #6366f1
+                    );
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            color: white;
+
+            box-shadow:
+                    0 8px 20px rgba(59,130,246,0.25);
+
+        }
+
+
+        .brand-info {
+
+            min-width: 0;
+
+        }
+
+
+        .brand-info h2 {
+
+            margin: 0;
+
+            font-size: 16px;
+
+            letter-spacing: 1px;
+
+            font-weight: 800;
+
+            color: #ffffff;
+
+        }
+
+
+        .brand-info span {
+
+            display: block;
+
+            margin-top: 4px;
+
+            font-size: 11px;
+
+            color: #94a3b8;
+
+        }
+
+
+        /* =========================================
+           TARJETA ADMIN
+        ========================================= */
+
+        .admin-card {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 13px;
+
+            margin-bottom: 28px;
+
+            background: rgba(255,255,255,0.045);
+
+            border: 1px solid rgba(255,255,255,0.06);
+
+            border-radius: 14px;
+
+        }
+
+
+        .admin-avatar {
+
+            width: 39px;
+
+            height: 39px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #6366f1,
+                            #8b5cf6
+                    );
+
+            color: white;
+
+            font-weight: 700;
+
+            font-size: 14px;
+
+        }
+
+
+        .admin-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            min-width: 0;
+
+        }
+
+
+        .admin-info strong {
+
+            color: #f8fafc;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .admin-info span {
+
+            color: #64748b;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+        }
+
+
+        .online-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            margin-left: auto;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                    0 0 0 3px rgba(34,197,94,0.12);
+
+        }
+
+
+        /* =========================================
+           TÍTULO MENÚ
+        ========================================= */
+
+        .menu-title {
+
+            padding: 0 10px;
+
+            margin-bottom: 10px;
+
+            color: #64748b;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+
+        }
+
+
+        /* =========================================
+           MENÚ
+        ========================================= */
+
+        .menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+        }
+
+
+        /* =========================================
+           ITEMS
+        ========================================= */
+
+        .menu-item {
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            width: 100%;
+
+            min-height: 48px;
+
+            padding: 0 12px;
+
+            gap: 13px;
+
+            color: #94a3b8;
+
+            text-decoration: none;
+
+            border-radius: 11px;
+
+            transition:
+                    background 0.2s ease,
+                    color 0.2s ease,
+                    transform 0.2s ease;
+
+        }
+
+
+        .menu-item:hover {
+
+            background: rgba(255,255,255,0.06);
+
+            color: #ffffff;
+
+            transform: translateX(3px);
+
+        }
+
+
+        /* =========================================
+           ITEM ACTIVO
+        ========================================= */
+
+        .menu-item.active {
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            rgba(59,130,246,0.20),
+                            rgba(99,102,241,0.10)
+                    );
+
+            color: #ffffff;
+
+        }
+
+
+        .menu-item.active::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: -18px;
+
+            top: 9px;
+
+            width: 3px;
+
+            height: 30px;
+
+            border-radius: 0 5px 5px 0;
+
+            background: #3b82f6;
+
+            box-shadow:
+                    0 0 12px rgba(59,130,246,0.6);
+
+        }
+
+
+        /* =========================================
+           ICONOS
+        ========================================= */
+
+        .menu-icon {
+
+            width: 23px;
+
+            height: 23px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            font-size: 18px;
+
+            color: #64748b;
+
+            transition: color 0.2s ease;
+
+        }
+
+
+        .menu-item:hover .menu-icon,
+
+        .menu-item.active .menu-icon {
+
+            color: #60a5fa;
+
+        }
+
+
+        /* =========================================
+           TEXTO
+        ========================================= */
+
+        .menu-text {
+
+            flex: 1;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+        }
+
+
+        /* =========================================
+           BADGE MENSAJES
+        ========================================= */
+
+        .message-badge {
+
+            min-width: 22px;
+
+            height: 22px;
+
+            padding: 0 6px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 7px;
+
+            background: #ef4444;
+
+            color: white;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            box-shadow:
+                    0 4px 10px rgba(239,68,68,0.25);
+
+        }
+
+
+        /* =========================================
+           SEPARADOR
+        ========================================= */
+
+        .sidebar-separator {
+
+            height: 1px;
+
+            margin: 25px 8px;
+
+            background:
+                    rgba(255,255,255,0.07);
+
+        }
+
+
+        /* =========================================
+           PARTE INFERIOR
+        ========================================= */
+
+        .sidebar-bottom {
+
+            margin-top: auto;
+
+        }
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        .sidebar-bottom form {
+
+            width: 100%;
+
+        }
+
+
+        .logout-button {
+
+            display: flex;
+
+            align-items: center;
+
+            width: 100%;
+
+            min-height: 48px;
+
+            padding: 0 12px;
+
+            gap: 13px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background: transparent;
+
+            color: #94a3b8;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition:
+                    background 0.2s ease,
+                    color 0.2s ease,
+                    transform 0.2s ease;
+
+        }
+
+
+        .logout-button:hover {
+
+            background: rgba(239,68,68,0.12);
+
+            color: #f87171;
+
+            transform: translateX(3px);
+
+        }
+
+
+        .logout-button:hover .menu-icon {
+
+            color: #f87171;
+
+        }
+
+
+        /* =========================================
+           VERSION
+        ========================================= */
+
+        .sidebar-version {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-top: 25px;
+
+            padding: 10px;
+
+            color: #475569;
+
+            font-size: 9px;
+
+            letter-spacing: 0.7px;
+
+        }
+
+
+        .sidebar-version small {
+
+            font-size: 9px;
+
+            color: #334155;
+
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                width: 235px;
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+
+                width: 215px;
+
+                padding: 20px 13px;
+
+            }
+
+
+            .sidebar-header {
+
+                padding-left: 5px;
+
+            }
+
+
+            .admin-card {
+
+                padding: 10px;
+
+            }
+
+
+            .menu-item {
+
+                min-height: 44px;
+
+            }
+
+
+            .menu-item.active::before {
+
+                left: -13px;
+
+            }
+
+        }
+
+    </style>
+
+</aside>
+
+</body>
+
+</html>
