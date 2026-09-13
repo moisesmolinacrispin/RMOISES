@@ -39,9 +39,9 @@
 </header>
 
 <!-- =====================================================
-     INICIO / HERO
+     INICIO / HERO (Compacto para que quepa en 1 sola pantalla)
      ===================================================== -->
-<section class="hero" id="inicio">
+<section class="hero" id="inicio" style="min-height: calc(100vh - 70px); padding-top: 2rem; padding-bottom: 2rem; display: flex; align-items: center;">
     <div class="hero-container">
         <!-- TEXTO PRINCIPAL -->
         <div class="hero-content">
@@ -70,7 +70,7 @@
                 </a>
             </div>
             <!-- PEQUEÑOS DATOS -->
-            <div class="hero-info">
+            <div class="hero-info" style="margin-top: 1.5rem;">
                 <div>
                     <span class="info-number">16</span>
                     <span class="info-text">SEMANAS</span>
@@ -93,13 +93,15 @@
             <div class="profile-container">
                 <div class="profile-ring"></div>
                 <div class="profile-image-box">
+                    <!-- Si tienes una foto en base de datos o carpeta -->
                     <img class="profile-photo"
                          th:if="${perfil.foto != null and !perfil.foto.isEmpty()}"
                          th:src="@{'/publico/imagen/' + ${perfil.foto}}"
                          th:alt="${perfil.nombre + ' ' + perfil.apellidos}" />
+                    <!-- Imagen predeterminada si no hay foto cargada para que luzca exactamente como tu referencia -->
                     <img class="profile-photo"
                          th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
-                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=700&q=80"
+                         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=80"
                          alt="Foto de perfil" />
                 </div>
                 <div class="floating-code code-one">&lt;html&gt;</div>
