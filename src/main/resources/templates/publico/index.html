@@ -16,19 +16,40 @@
     <link rel="stylesheet"
           th:href="@{/css/publico.css}">
 
-    <!-- Estilos rápidos en línea para ajustar la sección hero a una sola pantalla -->
+    <!-- Ajustes perfectos para centrar verticalmente y evitar cortes arriba o abajo -->
     <style>
         .hero {
-            min-height: calc(100vh - 70px) !important;
-            height: auto !important;
-            padding-top: 20px !important;
-            padding-bottom: 20px !important;
+            min-height: 85vh;
             display: flex;
             align-items: center;
+            padding-top: 80px;
+            padding-bottom: 40px;
+            overflow: visible !important;
         }
         .hero-container {
-            transform: scale(0.92);
-            transform-origin: top center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(0);
+        }
+        .profile-container {
+            position: relative;
+        }
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 60px);
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        .hero h1 span, .hero h1 strong {
+            display: inline-block;
         }
     </style>
 
@@ -133,17 +154,9 @@
 
 
             <h1>
-
                 Hola, soy
-
-                <span th:text="${perfil.nombre}">
-                    Moises
-                </span>
-
-                <strong th:text="${perfil.apellidos}">
-                    Molina Crispin
-                </strong>
-
+                <span th:text="${perfil.nombre}">Moises</span>
+                <strong th:text="${perfil.apellidos}">Molina Crispin</strong>
             </h1>
 
 
@@ -161,9 +174,7 @@
             <p class="hero-description"
                th:text="${perfil.descripcion}">
 
-                Exploro el mundo del desarrollo web creando
-                soluciones digitales, aprendiendo nuevas
-                tecnologías y convirtiendo ideas en proyectos.
+                Estudiante de Diseño y Programación Web. Portafolio académico correspondiente a las 16 semanas de clase.
 
             </p>
 
@@ -260,9 +271,7 @@
 
                             th:src="@{'/publico/imagen/' + ${perfil.foto}}"
 
-                            th:alt="${perfil.nombre + ' ' + perfil.apellidos}"
-
-                            style="display: none;">
+                            th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
 
 
                     <img
@@ -270,11 +279,9 @@
 
                             th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
 
-                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=700&q=80"
+                            src="images/image_369f5f.jpg"
 
-                            alt="Foto de perfil"
-
-                            style="display: none;">
+                            alt="Foto de perfil">
 
                 </div>
 
