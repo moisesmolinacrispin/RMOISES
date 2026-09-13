@@ -333,22 +333,12 @@ body::before {
    ===================================================== */
 
 .hero {
-
-    min-height: 100vh;
-
-    display: flex;
-
-    align-items: center;
-
-    padding:
-            150px 6%
-            100px;
-
-    position: relative;
-
-    overflow: hidden;
+    min-height: auto !important;
+    padding-top: 130px !important;
+    padding-bottom: 60px !important;
+    display: flex !important;
+    align-items: center !important;
 }
-
 .hero-container {
 
     width: 100%;
@@ -680,19 +670,13 @@ body::before {
    ===================================================== */
 
 .hero-visual {
-
     position: relative;
-
-    min-height: 550px;
-
+    min-height: 380px;
     display: flex;
-
-    align-items: center;
-
+    align-items: flex-start;
     justify-content: center;
-
-    animation:
-            heroRight 1.2s ease forwards;
+    margin-top: 20px !important; /* Cambia a 20px, 30px o 40px según qué tan abajo lo quieras */
+    animation: heroRight 1.2s ease forwards;
 }
 
 .profile-container {
