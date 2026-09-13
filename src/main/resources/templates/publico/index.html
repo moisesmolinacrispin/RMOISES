@@ -52,14 +52,14 @@
             <h1>
                 Hola, soy
                 <span th:text="${perfil.nombre}">Moises</span>
-                <strong th:text="${perfil.apellidos}">Molina Crispin</strong>
+                <strong th:text="${perfil.apellidos}">MOLINA CRISPIN</strong>
             </h1>
             <div class="hero-role">
                 <span class="role-line"></span>
                 <span th:text="${perfil.carrera}">Diseño y Programación Web</span>
             </div>
             <p class="hero-description" th:text="${perfil.descripcion}">
-                Exploro el mundo del desarrollo web creando soluciones digitales, aprendiendo nuevas tecnologías y convirtiendo ideas en proyectos.
+                Estudiante de Diseño y Programación Web. Portafolio académico correspondiente a las 16 semanas de formación.
             </p>
             <div class="hero-actions">
                 <a href="#semanas" class="btn-main">
@@ -73,15 +73,15 @@
             <div class="hero-info">
                 <div>
                     <span class="info-number">16</span>
-                    <span class="info-text">Semanas</span>
+                    <span class="info-text">SEMANAS</span>
                 </div>
                 <div>
                     <span class="info-number">∞</span>
-                    <span class="info-text">Aprendizaje</span>
+                    <span class="info-text">APRENDIZAJE</span>
                 </div>
                 <div>
                     <span class="info-number">01</span>
-                    <span class="info-text">Portafolio</span>
+                    <span class="info-text">PORTAFOLIO</span>
                 </div>
             </div>
         </div>
@@ -120,7 +120,6 @@
         <p>Una mirada a mi formación, intereses y forma de entender el desarrollo web.</p>
     </div>
     <div class="about-layout">
-        <!-- DESCRIPCIÓN PRINCIPAL -->
         <div class="about-main-card">
             <div class="card-number">01</div>
             <h3>Sobre mí</h3>
@@ -130,7 +129,6 @@
             <div class="card-line"></div>
             <span class="card-caption">CREATIVIDAD + TECNOLOGÍA</span>
         </div>
-        <!-- TARJETAS -->
         <div class="about-side">
             <div class="mini-card">
                 <span class="mini-icon">◈</span>
@@ -293,12 +291,10 @@
             <p>Si quieres conocer mis proyectos, compartir una propuesta o simplemente conversar, puedes escribirme.</p>
         </div>
         <div class="contact-details">
-            <!-- CORREO -->
             <div class="contact-item" th:if="${perfil.correo != null and !perfil.correo.isEmpty()}">
                 <span class="contact-label">CORREO</span>
                 <a th:href="'mailto:' + ${perfil.correo}" th:text="${perfil.correo}">correo@ejemplo.com</a>
             </div>
-            <!-- TELÉFONO -->
             <div class="contact-item" th:if="${perfil.telefono != null and !perfil.telefono.isEmpty()}">
                 <span class="contact-label">TELÉFONO</span>
                 <span th:text="${perfil.telefono}">+51 999 999 999</span>
