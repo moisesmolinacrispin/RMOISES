@@ -51,6 +51,56 @@
         .hero h1 span, .hero h1 strong {
             display: inline-block;
         }
+
+        /* =========================================
+           SOLUCIÓN RESPONSIVE PARA PANTALLAS PEQUEÑAS / MÓVILES
+           ========================================= */
+
+        @media (max-width: 992px) {
+            .hero {
+                padding-top: 100px !important;
+                padding-bottom: 40px !important;
+                min-height: auto !important;
+            }
+
+            .hero-container {
+                flex-direction: column !important;
+                text-align: center !important;
+                gap: 35px !important;
+            }
+
+            .hero-content {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                width: 100% !important;
+            }
+
+            .hero-role,
+            .hero-actions,
+            .hero-info {
+                justify-content: center !important;
+                width: 100% !important;
+            }
+
+            .hero-visual {
+                margin-top: 10px !important;
+                transform: translateY(0) !important;
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+            }
+
+            .profile-container {
+                transform: scale(0.80) !important;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .profile-container {
+                transform: scale(0.70) !important;
+            }
+        }
     </style>
 
 </head>
