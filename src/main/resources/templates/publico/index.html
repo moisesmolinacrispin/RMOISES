@@ -39,9 +39,9 @@
 </header>
 
 <!-- =====================================================
-     INICIO / HERO (Compacto para que quepa en 1 sola pantalla)
+     INICIO / HERO (Ajustado para que entre completo en 1 sola pantalla)
      ===================================================== -->
-<section class="hero" id="inicio" style="min-height: calc(100vh - 70px); padding-top: 2rem; padding-bottom: 2rem; display: flex; align-items: center;">
+<section class="hero" id="inicio" style="min-height: calc(100vh - 60px); padding-top: 1rem; padding-bottom: 1rem; display: flex; align-items: center;">
     <div class="hero-container">
         <!-- TEXTO PRINCIPAL -->
         <div class="hero-content">
@@ -70,7 +70,7 @@
                 </a>
             </div>
             <!-- PEQUEÑOS DATOS -->
-            <div class="hero-info" style="margin-top: 1.5rem;">
+            <div class="hero-info" style="margin-top: 1rem;">
                 <div>
                     <span class="info-number">16</span>
                     <span class="info-text">SEMANAS</span>
@@ -93,14 +93,14 @@
             <div class="profile-container">
                 <div class="profile-ring"></div>
                 <div class="profile-image-box">
-                    <!-- Si tienes una foto en base de datos o carpeta -->
+                    <!-- Foto real si existe en la base de datos -->
                     <img class="profile-photo"
-                         th:if="${perfil.foto != null and !perfil.foto.isEmpty()}"
+                         th:if="${perfil.foto != null and perfil.foto != ''}"
                          th:src="@{'/publico/imagen/' + ${perfil.foto}}"
                          th:alt="${perfil.nombre + ' ' + perfil.apellidos}" />
-                    <!-- Imagen predeterminada si no hay foto cargada para que luzca exactamente como tu referencia -->
+                    <!-- Imagen de respaldo por si no hay foto cargada -->
                     <img class="profile-photo"
-                         th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
+                         th:if="${perfil.foto == null or perfil.foto == ''}"
                          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=80"
                          alt="Foto de perfil" />
                 </div>
