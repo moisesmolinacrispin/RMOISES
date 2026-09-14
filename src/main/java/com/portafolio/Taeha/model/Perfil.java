@@ -32,7 +32,12 @@ public class Perfil {
 
     private String linkedin;
 
-    private String foto;
+    // ==========================================
+    // CAMBIO A BYTE ARRAY (LONGBLOB EN MYSQL)
+    // ==========================================
+    @Lob
+    @Column(name = "foto", columnDefinition = "LONGBLOB")
+    private byte[] foto;
 
     // ==========================================
     // CONSTRUCTOR
@@ -133,11 +138,11 @@ public class Perfil {
         this.linkedin = linkedin;
     }
 
-    public String getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(String foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 }
