@@ -312,29 +312,21 @@
                 <div class="profile-ring"></div>
 
 
-                <div class="profile-image-box">
+               <div class="profile-image-box">
 
-                    <img
-                            class="profile-photo"
+    <img
+        class="profile-photo"
+        th:if="${perfil.foto != null and !perfil.foto.isEmpty()}"
+        th:src="${perfil.foto}"
+        th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
 
-                            th:if="${perfil.foto != null and !perfil.foto.isEmpty()}"
+    <img
+        class="profile-photo"
+        th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
+        src="images/image_369f5f.jpg"
+        alt="Foto de perfil">
 
-                            th:src="@{'/publico/imagen/' + ${perfil.foto}}"
-
-                            th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
-
-
-                    <img
-                            class="profile-photo"
-
-                            th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
-
-                            src="images/image_369f5f.jpg"
-
-                            alt="Foto de perfil">
-
-                </div>
-
+</div>
 
                 <div class="floating-code code-one">
                     &lt;html&gt;
