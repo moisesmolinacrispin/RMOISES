@@ -98,6 +98,15 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- ====================================== -->
+		<!-- CLOUDINARY (STORAGE) -->
+		<!-- ====================================== -->
+		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.36.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<!-- ========================================== -->
