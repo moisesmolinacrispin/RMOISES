@@ -33,21 +33,21 @@ public class ArchivoService {
             return null;
         }
 
-        try {
-            Map uploadResult = cloudinary.uploader().upload(
-                archivo.getBytes(),
-                ObjectUtils.asMap(
-                    "folder", carpeta,
-                    "resource_type", "auto"
-                )
-            );
+   try {
+        Map uploadResult = cloudinary.uploader().upload(
+            archivo.getBytes(),
+            ObjectUtils.asMap(
+                "folder", carpeta,
+                "resource_type", "raw" // <--- Cambia "auto" por "raw" aquí
+            )
+        );
 
-            // Retorna la URL directa HTTPS provista por Cloudinary
-            return uploadResult.get("secure_url").toString();
+        // Retorna la URL directa HTTPS provista por Cloudinary
+        return uploadResult.get("secure_url").toString();
 
-        } catch (IOException e) {
-            throw new RuntimeException("Error al subir archivo a Cloudinary", e);
-        }
+    } catch (IOException e) {
+        throw new RuntimeException("Error al subir archivo a Cloudinary", e);
+    }
     }
 
     // --- MÉTODOS DE CARGA / LECTURA ---
