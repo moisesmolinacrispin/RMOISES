@@ -1,1235 +1,2471 @@
 <!DOCTYPE html>
+
 <html lang="es"
+
       xmlns:th="http://www.thymeleaf.org">
+
+
 
 <head>
 
+
+
     <meta charset="UTF-8">
 
+
+
     <meta name="viewport"
+
           content="width=device-width, initial-scale=1.0">
 
+
+
     <title th:text="${perfil.nombre + ' ' + perfil.apellidos + ' | Portafolio'}">
+
         Molina Crispin, Moises | Portafolio
+
     </title>
 
+
+
     <link rel="stylesheet"
+
           th:href="@{/css/publico.css}">
 
+
+
     <!-- Ajustes perfectos para centrar verticalmente y evitar cortes arriba o abajo -->
+
     <style>
+
         .hero {
+
             min-height: 85vh;
+
             display: flex;
+
             align-items: center;
+
             padding-top: 80px;
+
             padding-bottom: 40px;
+
             overflow: visible !important;
+
         }
+
         .hero-container {
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             width: 100%;
+
         }
+
         .hero-visual {
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             transform: translateY(0);
+
         }
+
         .profile-container {
+
             position: relative;
+
         }
+
         .hero h1 {
+
             font-size: clamp(36px, 5vw, 60px);
+
             line-height: 1.1;
+
             letter-spacing: -1.5px;
+
             font-weight: 800;
+
             margin-bottom: 15px;
+
         }
+
         .hero h1 span, .hero h1 strong {
+
             display: inline-block;
+
         }
+
+
 
         /* =========================================
+
            SOLUCIÓN RESPONSIVE PARA PANTALLAS PEQUEÑAS / MÓVILES
+
            ========================================= */
 
+
+
         @media (max-width: 992px) {
+
             .hero {
+
                 padding-top: 100px !important;
+
                 padding-bottom: 40px !important;
+
                 min-height: auto !important;
+
             }
+
+
 
             .hero-container {
+
                 flex-direction: column !important;
+
                 text-align: center !important;
+
                 gap: 35px !important;
+
             }
+
+
 
             .hero-content {
+
                 display: flex !important;
+
                 flex-direction: column !important;
+
                 align-items: center !important;
+
                 width: 100% !important;
+
             }
+
+
 
             .hero-role,
+
             .hero-actions,
+
             .hero-info {
+
                 justify-content: center !important;
+
                 width: 100% !important;
+
             }
+
+
 
             .hero-visual {
+
                 margin-top: 10px !important;
+
                 transform: translateY(0) !important;
+
                 width: 100% !important;
+
                 display: flex !important;
+
                 justify-content: center !important;
+
             }
 
+
+
             .profile-container {
+
                 transform: scale(0.80) !important;
+
             }
+
         }
+
+
 
         @media (max-width: 500px) {
+
             .profile-container {
+
                 transform: scale(0.70) !important;
+
             }
+
         }
+
     </style>
 
+
+
 </head>
+
+
 
 <body>
 
 
+
+
+
 <!-- =====================================================
+
      FONDO DECORATIVO
+
      ===================================================== -->
 
+
+
 <div class="background-shape shape-one"></div>
+
 <div class="background-shape shape-two"></div>
+
+
 
 <div class="grid-background"></div>
 
 
+
+
+
 <!-- =====================================================
+
      NAVEGACIÓN
+
      ===================================================== -->
+
+
 
 <header class="navbar">
 
+
+
     <div class="navbar-container">
+
+
 
         <a href="#inicio" class="brand">
 
+
+
             <span class="brand-symbol">&lt;/&gt;</span>
 
+
+
             <span class="brand-name">
+
                 MOISES
+
             </span>
+
+
 
         </a>
 
 
+
+
+
         <nav>
+
+
 
             <ul class="nav-links">
 
+
+
                 <li>
+
                     <a href="#inicio">
+
                         Inicio
+
                     </a>
+
                 </li>
 
+
+
                 <li>
+
                     <a href="#sobre-mi">
+
                         Perfil
+
                     </a>
+
                 </li>
 
+
+
                 <li>
+
                     <a href="#habilidades">
+
                         Tecnologías
+
                     </a>
+
                 </li>
 
+
+
                 <li>
+
                     <a href="#semanas">
+
                         Mi recorrido
+
                     </a>
+
                 </li>
 
+
+
                 <li>
+
                     <a href="#contacto">
+
                         Hablemos
+
                     </a>
+
                 </li>
+
+
 
             </ul>
 
+
+
         </nav>
 
+
+
     </div>
+
+
 
 </header>
 
 
+
+
+
 <!-- =====================================================
+
      INICIO / HERO
+
      ===================================================== -->
 
+
+
 <section class="hero"
+
          id="inicio">
+
+
 
     <div class="hero-container">
 
 
+
+
+
         <!-- TEXTO PRINCIPAL -->
+
+
 
         <div class="hero-content">
 
+
+
             <div class="hero-label">
+
+
 
                 <span class="status-dot"></span>
 
+
+
                 PORTAFOLIO ACADÉMICO
+
+
 
             </div>
 
 
+
+
+
             <h1>
+
                 Hola, soy
+
                 <span th:text="${perfil.nombre}">Moises</span>
+
                 <strong th:text="${perfil.apellidos}">Molina Crispin</strong>
+
             </h1>
+
+
+
 
 
             <div class="hero-role">
 
+
+
                 <span class="role-line"></span>
 
+
+
                 <span th:text="${perfil.carrera}">
+
                     Diseño y Programación Web
+
                 </span>
+
+
 
             </div>
 
 
+
+
+
             <p class="hero-description"
+
                th:text="${perfil.descripcion}">
 
+
+
                 Estudiante de Diseño y Programación Web. Portafolio académico correspondiente a las 16 semanas de clase.
+
+
 
             </p>
 
 
+
+
+
             <div class="hero-actions">
 
+
+
                 <a href="#semanas"
+
                    class="btn-main">
+
+
 
                     Ver mi trabajo
 
+
+
                     <span>→</span>
 
+
+
                 </a>
+
+
+
 
 
                 <a href="#contacto"
+
                    class="btn-secondary">
+
+
 
                     Contactarme
 
+
+
                 </a>
 
+
+
             </div>
+
+
+
 
 
             <!-- PEQUEÑOS DATOS -->
 
+
+
             <div class="hero-info">
 
+
+
                 <div>
 
+
+
                     <span class="info-number">
+
                         16
+
                     </span>
 
+
+
                     <span class="info-text">
+
                         Semanas
+
                     </span>
+
+
 
                 </div>
 
 
+
+
+
                 <div>
 
+
+
                     <span class="info-number">
+
                         ∞
+
                     </span>
+
+
 
                     <span class="info-text">
+
                         Aprendizaje
+
                     </span>
 
+
+
                 </div>
+
+
+
 
 
                 <div>
 
+
+
                     <span class="info-number">
+
                         01
+
                     </span>
+
+
 
                     <span class="info-text">
+
                         Portafolio
+
                     </span>
 
+
+
                 </div>
+
+
 
             </div>
 
+
+
         </div>
+
+
+
 
 
         <!-- FOTO -->
 
+
+
         <div class="hero-visual">
 
+
+
             <div class="visual-decoration decoration-one"></div>
+
+
 
             <div class="visual-decoration decoration-two"></div>
 
 
+
+
+
             <div class="profile-container">
+
+
 
                 <div class="profile-ring"></div>
 
 
+
+
+
                 <div class="profile-image-box">
 
-                    <!-- Si tiene foto en Cloudinary (empieza con http) -->
-                    <img class="profile-photo"
-                         th:if="${perfil.foto != null and !perfil.foto.isEmpty() and #strings.startsWith(perfil.foto, 'http')}"
-                         th:src="${perfil.foto}"
-                         th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
 
-                    <!-- Si tiene foto guardada localmente (nombre de archivo) -->
-                    <img class="profile-photo"
-                         th:if="${perfil.foto != null and !perfil.foto.isEmpty() and !#strings.startsWith(perfil.foto, 'http')}"
-                         th:src="@{'/publico/imagen/' + ${perfil.foto}}"
-                         th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
 
-                    <!-- Si no tiene foto -->
-                    <img class="profile-photo"
-                         th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
-                         src="images/image_369f5f.jpg"
-                         alt="Foto de perfil">
+                    <img
+
+                            class="profile-photo"
+
+
+
+                            th:if="${perfil.foto != null and !perfil.foto.isEmpty()}"
+
+
+
+                            th:src="@{'/publico/imagen/' + ${perfil.foto}}"
+
+
+
+                            th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
+
+
+
+
+
+                    <img
+
+                            class="profile-photo"
+
+
+
+                            th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
+
+
+
+                            src="images/image_369f5f.jpg"
+
+
+
+                            alt="Foto de perfil">
+
+
 
                 </div>
+
+
+
 
 
                 <div class="floating-code code-one">
+
                     &lt;html&gt;
+
                 </div>
+
+
 
                 <div class="floating-code code-two">
+
                     { code }
+
                 </div>
 
+
+
                 <div class="floating-code code-three">
+
                     Java
+
                 </div>
+
+
 
             </div>
 
+
+
         </div>
 
+
+
     </div>
+
+
 
 </section>
 
 
+
+
+
 <!-- =====================================================
+
      SOBRE MÍ
+
      ===================================================== -->
 
+
+
 <section class="about-section"
+
          id="sobre-mi">
+
+
 
     <div class="section-heading">
 
+
+
         <span class="section-tag">
+
             01 / PERFIL
+
         </span>
 
+
+
         <h2>
+
             Conóceme un poco
+
         </h2>
 
+
+
         <p>
+
             Una mirada a mi formación, intereses y forma
+
             de entender el desarrollo web.
+
         </p>
 
+
+
     </div>
+
+
+
 
 
     <div class="about-layout">
 
 
+
+
+
         <!-- DESCRIPCIÓN PRINCIPAL -->
+
+
 
         <div class="about-main-card">
 
+
+
             <div class="card-number">
+
                 01
+
             </div>
 
+
+
             <h3>
+
                 Sobre mí
+
             </h3>
+
+
 
             <p th:text="${perfil.sobreMi}">
 
+
+
                 Soy estudiante de Diseño y Programación Web
+
                 interesado en aprender, experimentar y
+
                 desarrollar proyectos digitales.
+
+
 
             </p>
 
+
+
             <div class="card-line"></div>
 
+
+
             <span class="card-caption">
+
                 CREATIVIDAD + TECNOLOGÍA
+
             </span>
 
+
+
         </div>
+
+
+
 
 
         <!-- TARJETAS -->
 
+
+
         <div class="about-side">
 
 
+
+
+
             <div class="mini-card">
 
+
+
                 <span class="mini-icon">
+
                     ◈
+
                 </span>
+
+
 
                 <div>
 
+
+
                     <h3>
+
                         Diseño
+
                     </h3>
 
+
+
                     <p>
+
                         Me enfoco en interfaces claras,
+
                         atractivas y cómodas para el usuario.
+
                     </p>
 
+
+
                 </div>
+
+
 
             </div>
 
 
+
+
+
             <div class="mini-card">
 
+
+
                 <span class="mini-icon">
+
                     &lt;/&gt;
+
                 </span>
+
+
 
                 <div>
 
+
+
                     <h3>
+
                         Desarrollo
+
                     </h3>
 
+
+
                     <p>
+
                         Transformo conceptos en aplicaciones
+
                         web funcionales y dinámicas.
+
                     </p>
+
+
 
                 </div>
 
+
+
             </div>
+
+
+
 
 
             <div class="mini-card">
 
+
+
                 <span class="mini-icon">
+
                     ↗
+
                 </span>
+
+
 
                 <div>
 
+
+
                     <h3>
+
                         Evolución
+
                     </h3>
 
+
+
                     <p>
+
                         Cada proyecto representa una nueva
+
                         oportunidad para mejorar mis habilidades.
+
                     </p>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
         </div>
 
+
+
     </div>
+
+
 
 </section>
 
 
+
+
+
 <!-- =====================================================
+
      TECNOLOGÍAS
+
      ===================================================== -->
 
+
+
 <section class="skills-section"
+
          id="habilidades">
+
+
+
 
 
     <div class="section-heading">
 
+
+
         <span class="section-tag">
+
             02 / STACK
+
         </span>
 
+
+
         <h2>
+
             Herramientas que estoy aprendiendo
+
         </h2>
 
+
+
         <p>
+
             Tecnologías que forman parte de mi proceso
+
             de formación como desarrollador web.
+
         </p>
 
+
+
     </div>
+
+
+
 
 
     <div class="skills-grid">
 
 
+
+
+
         <div class="skill-card">
 
+
+
             <span class="skill-index">
+
                 01
+
             </span>
 
+
+
             <div class="skill-icon">
+
                 HTML
+
             </div>
 
+
+
             <h3>
+
                 HTML
+
             </h3>
 
+
+
             <p>
+
                 Construcción de estructuras web semánticas
+
                 y organizadas.
+
             </p>
 
+
+
             <span class="skill-arrow">
+
                 →
+
             </span>
+
+
 
         </div>
 
 
+
+
+
         <div class="skill-card">
 
+
+
             <span class="skill-index">
+
                 02
+
             </span>
 
+
+
             <div class="skill-icon">
+
                 CSS
+
             </div>
 
+
+
             <h3>
+
                 CSS
+
             </h3>
 
+
+
             <p>
+
                 Creación de interfaces visuales, diseños
+
                 adaptables y efectos modernos.
+
             </p>
 
+
+
             <span class="skill-arrow">
+
                 →
+
             </span>
+
+
 
         </div>
 
 
+
+
+
         <div class="skill-card">
 
+
+
             <span class="skill-index">
+
                 03
+
             </span>
 
+
+
             <div class="skill-icon">
+
                 JS
+
             </div>
 
+
+
             <h3>
+
                 JavaScript
+
             </h3>
 
+
+
             <p>
+
                 Interactividad y comportamiento dinámico
+
                 para las aplicaciones web.
+
             </p>
 
+
+
             <span class="skill-arrow">
+
                 →
+
             </span>
+
+
 
         </div>
 
 
+
+
+
         <div class="skill-card">
 
+
+
             <span class="skill-index">
+
                 04
+
             </span>
 
+
+
             <div class="skill-icon">
+
                 JV
+
             </div>
 
+
+
             <h3>
+
                 Java
+
             </h3>
 
+
+
             <p>
+
                 Programación orientada a objetos y desarrollo
+
                 de aplicaciones.
+
             </p>
 
+
+
             <span class="skill-arrow">
+
                 →
+
             </span>
+
+
 
         </div>
 
 
+
+
+
         <div class="skill-card">
 
+
+
             <span class="skill-index">
+
                 05
+
             </span>
+
+
 
             <div class="skill-icon">
+
                 SB
+
             </div>
 
+
+
             <h3>
+
                 Spring Boot
+
             </h3>
 
+
+
             <p>
+
                 Construcción de aplicaciones web y servicios
+
                 utilizando el ecosistema Spring.
+
             </p>
 
+
+
             <span class="skill-arrow">
+
                 →
+
             </span>
 
+
+
         </div>
+
+
+
 
 
         <div class="skill-card">
 
+
+
             <span class="skill-index">
+
                 06
+
             </span>
+
+
 
             <div class="skill-icon">
+
                 SQL
+
             </div>
 
+
+
             <h3>
+
                 MySQL
+
             </h3>
 
+
+
             <p>
+
                 Organización, almacenamiento y gestión
+
                 de información mediante bases de datos.
+
             </p>
 
+
+
             <span class="skill-arrow">
+
                 →
+
             </span>
 
+
+
         </div>
+
+
 
     </div>
+
+
 
 </section>
 
 
+
+
+
 <!-- =====================================================
+
      SEMANAS
+
      ===================================================== -->
 
+
+
 <section class="journey-section"
+
          id="semanas">
+
+
+
 
 
     <div class="section-heading">
 
+
+
         <span class="section-tag">
+
             03 / RECORRIDO
+
         </span>
 
+
+
         <h2>
+
             Mi camino de aprendizaje
+
         </h2>
 
+
+
         <p>
+
             Explora las 16 etapas de mi formación y descubre
+
             los trabajos realizados en cada semana.
+
         </p>
 
+
+
     </div>
+
+
+
 
 
     <div class="journey-grid">
 
 
+
+
+
         <a
+
                 th:each="semana : ${semanas}"
 
+
+
                 th:href="@{/semana/{id}(id=${semana.id})}"
+
+
 
                 class="journey-card">
 
 
+
+
+
             <div class="journey-top">
 
+
+
                 <span class="journey-number"
+
                       th:text="${#numbers.formatInteger(semana.numero, 2)}">
+
+
 
                     01
 
+
+
                 </span>
+
+
 
                 <span class="journey-arrow">
+
                     ↗
+
                 </span>
 
+
+
             </div>
+
+
+
 
 
             <div class="journey-content">
 
+
+
                 <span>
+
                     SEMANA
+
                 </span>
+
+
 
                 <h3 th:text="${semana.titulo}">
 
+
+
                     Introducción
+
+
 
                 </h3>
 
+
+
                 <p th:text="${semana.descripcion}">
 
+
+
                     Contenido y actividades desarrolladas
+
                     durante esta etapa.
 
+
+
                 </p>
+
+
 
             </div>
 
 
+
+
+
             <div class="journey-line"></div>
+
+
 
         </a>
 
 
+
+
+
     </div>
+
+
 
 </section>
 
 
+
+
+
 <!-- =====================================================
+
      PROYECTOS
+
      ===================================================== -->
+
+
 
 <section class="projects-section">
 
 
+
+
+
     <div class="section-heading">
 
+
+
         <span class="section-tag">
+
             04 / PROYECTOS
+
         </span>
 
+
+
         <h2>
+
             Lo que estoy construyendo
+
         </h2>
 
+
+
         <p>
+
             Algunos de los proyectos que representan mi
+
             evolución durante la carrera.
+
         </p>
 
+
+
     </div>
+
+
+
 
 
     <div class="projects-grid">
 
 
+
+
+
         <article class="project-card project-large">
 
+
+
             <div class="project-number">
+
                 01
+
             </div>
 
+
+
             <div class="project-icon">
+
                 &lt;/&gt;
+
             </div>
+
+
 
             <div class="project-content">
 
+
+
                 <span>
+
                     DESARROLLO WEB
+
                 </span>
 
+
+
                 <h3>
+
                     Aplicaciones digitales
+
                 </h3>
 
+
+
                 <p>
+
                     Proyectos orientados a resolver necesidades
+
                     mediante aplicaciones web funcionales.
+
                 </p>
+
+
 
             </div>
 
+
+
             <span class="project-symbol">
+
                 ↗
+
             </span>
+
+
 
         </article>
 
 
+
+
+
         <article class="project-card">
 
+
+
             <div class="project-number">
+
                 02
+
             </div>
 
+
+
             <div class="project-icon">
+
                 ◫
+
             </div>
+
+
 
             <div class="project-content">
 
+
+
                 <span>
+
                     INTERFAZ
+
                 </span>
 
+
+
                 <h3>
+
                     Experiencias visuales
+
                 </h3>
 
+
+
                 <p>
+
                     Diseños pensados para combinar estética,
+
                     claridad y facilidad de navegación.
+
                 </p>
+
+
 
             </div>
 
+
+
             <span class="project-symbol">
+
                 ↗
+
             </span>
 
+
+
         </article>
+
+
+
 
 
         <article class="project-card">
 
+
+
             <div class="project-number">
+
                 03
+
             </div>
 
+
+
             <div class="project-icon">
+
                 DB
+
             </div>
+
+
 
             <div class="project-content">
 
+
+
                 <span>
+
                     BACKEND
+
                 </span>
 
+
+
                 <h3>
+
                     Sistemas y datos
+
                 </h3>
 
+
+
                 <p>
+
                     Aplicaciones conectadas a bases de datos
+
                     para gestionar información.
+
                 </p>
+
+
 
             </div>
 
+
+
             <span class="project-symbol">
+
                 ↗
+
             </span>
 
+
+
         </article>
+
+
+
 
 
     </div>
 
+
+
 </section>
 
 
+
+
+
 <!-- =====================================================
+
      CONTACTO
+
      ===================================================== -->
 
+
+
 <section class="contact-section"
+
          id="contacto">
+
+
+
 
 
     <div class="contact-container">
 
 
+
+
+
         <div class="contact-heading">
 
+
+
             <span class="section-tag">
+
                 05 / CONTACTO
+
             </span>
 
+
+
             <h2>
+
                 ¿Tienes una idea?
+
                 <strong>
+
                     Hablemos.
+
                 </strong>
+
             </h2>
 
+
+
             <p>
+
                 Si quieres conocer mis proyectos, compartir
+
                 una propuesta o simplemente conversar,
+
                 puedes escribirme.
+
             </p>
 
+
+
         </div>
+
+
+
 
 
         <div class="contact-details">
 
 
+
+
+
             <!-- CORREO -->
 
+
+
             <div
+
                     class="contact-item"
+
+
 
                     th:if="${perfil.correo != null and !perfil.correo.isEmpty()}">
 
+
+
                 <span class="contact-label">
+
                     CORREO
+
                 </span>
 
+
+
                 <a
+
                         th:href="'mailto:' + ${perfil.correo}"
+
+
 
                         th:text="${perfil.correo}">
 
+
+
                     correo@ejemplo.com
+
+
 
                 </a>
 
+
+
             </div>
+
+
+
 
 
             <!-- TELÉFONO -->
 
+
+
             <div
+
                     class="contact-item"
+
+
 
                     th:if="${perfil.telefono != null and !perfil.telefono.isEmpty()}">
 
+
+
                 <span class="contact-label">
+
                     TELÉFONO
+
                 </span>
 
+
+
                 <span th:text="${perfil.telefono}">
+
                     +51 999 999 999
+
                 </span>
+
+
 
             </div>
 
 
+
+
+
             <button
+
                     type="button"
+
+
 
                     id="btnAbrirMensaje"
 
+
+
                     class="contact-button">
 
+
+
                 <span>
+
                     Enviar un mensaje
+
                 </span>
 
+
+
                 <strong>
+
                     →
+
                 </strong>
+
+
 
             </button>
 
+
+
         </div>
 
+
+
     </div>
+
+
 
 </section>
 
 
+
+
+
 <!-- =====================================================
+
      MODAL DE CONTACTO
+
      ===================================================== -->
 
+
+
 <div id="modalMensaje"
+
      class="modal-overlay">
+
+
+
 
 
     <div class="modal-contacto">
 
 
+
+
+
         <button
+
                 type="button"
+
+
 
                 id="btnCerrarMensaje"
 
+
+
                 class="modal-close"
+
+
 
                 aria-label="Cerrar">
 
+
+
             ×
+
+
 
         </button>
 
 
+
+
+
         <div class="modal-header">
 
+
+
             <span class="modal-number">
+
                 CONTACTO
+
             </span>
 
+
+
             <div class="modal-icon">
+
                 ↗
+
             </div>
 
+
+
             <h2>
+
                 Escríbeme
+
             </h2>
 
+
+
             <p>
+
                 Déjame tus datos y tu mensaje. Revisaré
+
                 tu solicitud y responderé lo antes posible.
+
             </p>
+
+
 
         </div>
 
 
+
+
+
         <form
+
                 id="formularioContacto"
 
+
+
                 th:action="@{/mensaje/enviar}"
+
+
 
                 method="post">
 
 
+
+
+
             <div class="form-group">
 
+
+
                 <label for="nombre">
+
                     Nombre completo
+
                 </label>
 
+
+
                 <input
+
                         type="text"
+
+
 
                         id="nombre"
 
+
+
                         name="nombre"
+
+
 
                         placeholder="Tu nombre"
 
+
+
                         required>
+
+
 
             </div>
 
 
+
+
+
             <div class="form-group">
 
+
+
                 <label for="correo">
+
                     Correo electrónico
+
                 </label>
 
+
+
                 <input
+
                         type="email"
+
+
 
                         id="correo"
 
+
+
                         name="correo"
+
+
 
                         placeholder="tu@email.com"
 
+
+
                         required>
+
+
 
             </div>
 
 
+
+
+
             <div class="form-group">
 
+
+
                 <label for="asunto">
+
                     Asunto
+
                 </label>
 
+
+
                 <input
+
                         type="text"
+
+
 
                         id="asunto"
 
+
+
                         name="asunto"
+
+
 
                         placeholder="Motivo del mensaje"
 
+
+
                         required>
 
+
+
             </div>
+
+
+
 
 
             <div class="form-group">
 
+
+
                 <label for="mensaje">
+
                     Mensaje
+
                 </label>
 
+
+
                 <textarea
+
                         id="mensaje"
+
+
 
                         name="mensaje"
 
+
+
                         placeholder="Cuéntame qué tienes en mente..."
+
+
 
                         required></textarea>
 
+
+
             </div>
+
+
+
 
 
             <div class="modal-buttons">
 
 
+
+
+
                 <button
+
                         type="button"
+
+
 
                         id="btnCancelarMensaje"
 
+
+
                         class="btn-cancel">
+
+
 
                     Cancelar
 
+
+
                 </button>
+
+
+
 
 
                 <button
+
                         type="submit"
+
+
 
                         class="btn-send">
 
+
+
                     Enviar mensaje
 
+
+
                     <span>
+
                         →
+
                     </span>
 
+
+
                 </button>
+
+
+
 
 
             </div>
 
+
+
         </form>
 
+
+
     </div>
+
+
 
 </div>
 
 
+
+
+
 <!-- =====================================================
+
      FOOTER
+
      ===================================================== -->
 
+
+
 <footer class="footer">
+
+
+
 
 
     <div class="footer-container">
 
 
+
+
+
         <div class="footer-brand">
 
+
+
             <span class="brand-symbol">
+
                 &lt;/&gt;
+
             </span>
 
+
+
             <span>
+
                 MOISES
+
             </span>
+
+
 
         </div>
 
 
+
+
+
         <p>
+
+
 
             © 2026
 
+
+
             <span th:text="${perfil.nombre + ' ' + perfil.apellidos}">
+
                 Molina Crispin, Moises
+
             </span>
+
+
 
             ·
 
+
+
             <span th:text="${perfil.carrera}">
+
                 Diseño y Programación Web
+
             </span>
+
+
 
         </p>
 
 
+
+
+
         <a href="#inicio"
+
            class="footer-top">
+
+
 
             Volver arriba ↑
 
+
+
         </a>
 
+
+
     </div>
+
+
 
 </footer>
 
 
+
+
+
 <!-- =====================================================
+
      JAVASCRIPT
+
      ===================================================== -->
+
+
 
 <script th:src="@{/js/publico.js}"></script>
 
 
+
+
+
 </body>
+
+
 
 </html>
