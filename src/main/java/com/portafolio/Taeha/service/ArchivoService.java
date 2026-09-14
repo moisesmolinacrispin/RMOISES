@@ -33,12 +33,14 @@ public class ArchivoService {
             return null;
         }
 
-   try {
+try {
         Map uploadResult = cloudinary.uploader().upload(
             archivo.getBytes(),
             ObjectUtils.asMap(
                 "folder", carpeta,
-                "resource_type", "raw" // <--- Cambia "auto" por "raw" aquí
+                "resource_type", "raw",
+                "use_filename", true,       // <--- Agrégalo aquí
+                "unique_filename", false    // <--- Agrégalo aquí
             )
         );
 
