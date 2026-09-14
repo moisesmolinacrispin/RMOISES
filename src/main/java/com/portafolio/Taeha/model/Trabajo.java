@@ -19,17 +19,9 @@ public class Trabajo {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    // =========================================================
-    // GUARDAR ARCHIVO E IMAGEN COMO BLOB (ARRAY DE BYTES)
-    // =========================================================
+    private String archivo;
 
-    @Lob
-    @Column(name = "archivo", columnDefinition = "LONGBLOB")
-    private byte[] archivo;
-
-    @Lob
-    @Column(name = "imagen", columnDefinition = "LONGBLOB")
-    private byte[] imagen;
+    private String imagen;
 
     private String enlace;
 
@@ -70,20 +62,20 @@ public class Trabajo {
     }
 
 
-    public byte[] getArchivo() {
+    public String getArchivo() {
         return archivo;
     }
 
-    public void setArchivo(byte[] archivo) {
+    public void setArchivo(String archivo) {
         this.archivo = archivo;
     }
 
 
-    public byte[] getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 
