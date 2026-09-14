@@ -1,1492 +1,2469 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${perfil.nombre + ' ' + perfil.apellidos + ' | Portafolio'}">Molina Crispin, Moises | Portafolio</title>
 
-    <link rel="stylesheet" th:href="@{/css/publico.css}">
+<html lang="es"
+
+      xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+
+
+
+    <meta charset="UTF-8">
+
+
+
+    <meta name="viewport"
+
+          content="width=device-width, initial-scale=1.0">
+
+
+
+    <title th:text="${perfil.nombre + ' ' + perfil.apellidos + ' | Portafolio'}">
+
+        Molina Crispin, Moises | Portafolio
+
+    </title>
+
+
+
+    <link rel="stylesheet"
+
+          th:href="@{/css/publico.css}">
+
+
+
+    <!-- Ajustes perfectos para centrar verticalmente y evitar cortes arriba o abajo -->
 
     <style>
-        /* ==========================================================================
-           1. VARIABLES GLOBALES Y RESET
-           ========================================================================== */
-        :root {
-            --bg-primary: #0a0c10;
-            --bg-secondary: #12161f;
-            --bg-card: #181d28;
-            --accent-color: #00f2fe;
-            --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            --text-main: #f0f4f8;
-            --text-muted: #8a99ad;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(0, 242, 254, 0.3);
-            --transition-fast: 0.2s ease;
-            --transition-normal: 0.3s ease;
-            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            font-family: var(--font-family);
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        /* ==========================================================================
-           2. ELEMENTOS DE FONDO Y DECORACIÓN
-           ========================================================================== */
-        .grid-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -2;
-            pointer-events: none;
-        }
-
-        .background-shape {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.15;
-        }
-
-        .shape-one {
-            top: -10%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: #00f2fe;
-        }
-
-        .shape-two {
-            bottom: 10%;
-            left: -10%;
-            width: 500px;
-            height: 500px;
-            background: #7f00ff;
-        }
-
-        /* ==========================================================================
-           3. NAVBAR Y NAVEGACIÓN
-           ========================================================================== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            background: rgba(10, 12, 16, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar-container {
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.25rem;
-            letter-spacing: 1px;
-        }
-
-        .brand-symbol {
-            color: #00f2fe;
-            font-weight: 900;
-        }
-
-        .brand-name {
-            color: var(--text-main);
-            transition: var(--transition-fast);
-        }
-
-        .brand:hover .brand-name {
-            color: #00f2fe;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            transition: var(--transition-fast);
-            position: relative;
-            padding: 5px 0;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-main);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background: var(--accent-gradient);
-            transition: var(--transition-normal);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* ==========================================================================
-           4. SECCIÓN HERO / INICIO
-           ========================================================================== */
         .hero {
+
             min-height: 85vh;
+
             display: flex;
+
             align-items: center;
-            padding-top: 100px;
-            padding-bottom: 60px;
+
+            padding-top: 80px;
+
+            padding-bottom: 40px;
+
             overflow: visible !important;
-            position: relative;
+
         }
 
         .hero-container {
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
-            gap: 40px;
+
+            width: 100%;
+
         }
 
-        .hero-content {
-            max-width: 600px;
-        }
-
-        .hero-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            background: rgba(0, 242, 254, 0.08);
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #00f2fe;
-            letter-spacing: 1.5px;
-            margin-bottom: 25px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #00f2fe;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #00f2fe;
-        }
-
-        .hero h1 {
-            font-size: clamp(36px, 5vw, 60px);
-            line-height: 1.1;
-            letter-spacing: -1.5px;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: var(--text-main);
-        }
-
-        .hero h1 span {
-            display: inline-block;
-            font-weight: 400;
-            color: var(--text-muted);
-        }
-
-        .hero h1 strong {
-            display: inline-block;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-role {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-
-        .role-line {
-            width: 30px;
-            height: 2px;
-            background: #00f2fe;
-        }
-
-        .hero-description {
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            margin-bottom: 35px;
-            max-width: 500px;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 45px;
-        }
-
-        .btn-main {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 28px;
-            background: var(--accent-gradient);
-            color: #0a0c10;
-            font-weight: 700;
-            border-radius: 8px;
-            transition: var(--transition-normal);
-            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.25);
-        }
-
-        .btn-main:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 242, 254, 0.4);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            padding: 14px 28px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-weight: 600;
-            border-radius: 8px;
-            transition: var(--transition-fast);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--border-hover);
-        }
-
-        .hero-info {
-            display: flex;
-            gap: 40px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .info-number {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        .info-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ==========================================================================
-           5. HERO VISUAL / FOTO DE PERFIL
-           ========================================================================== */
         .hero-visual {
-            position: relative;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             transform: translateY(0);
+
         }
 
         .profile-container {
+
             position: relative;
-            width: 320px;
-            height: 320px;
+
         }
 
-        .profile-ring {
-            position: absolute;
-            inset: -15px;
-            border: 2px dashed rgba(0, 242, 254, 0.3);
-            border-radius: 50%;
-            animation: rotateRing 30s linear infinite;
-        }
+        .hero h1 {
 
-        @keyframes rotateRing {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+            font-size: clamp(36px, 5vw, 60px);
 
-        .profile-image-box {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid var(--bg-card);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
+            line-height: 1.1;
 
-        .profile-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+            letter-spacing: -1.5px;
 
-        .floating-code {
-            position: absolute;
-            padding: 8px 16px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #00f2fe;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .code-one { top: 10%; left: -20px; animation-delay: 0s; }
-        .code-two { bottom: 20%; left: -30px; animation-delay: 1.3s; }
-        .code-three { top: 40%; right: -25px; animation-delay: 2.5s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* ==========================================================================
-           6. SECCIÓN SOBRE MÍ
-           ========================================================================== */
-        .about-section {
-            padding: 100px 0;
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-        }
-
-        .section-heading {
-            margin-bottom: 50px;
-        }
-
-        .section-tag {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #00f2fe;
-            letter-spacing: 2px;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .section-heading h2 {
-            font-size: 2.2rem;
             font-weight: 800;
-            margin-bottom: 10px;
-        }
 
-        .section-heading p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        .about-layout {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 30px;
-        }
-
-        .about-main-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px;
-            position: relative;
-        }
-
-        .card-number {
-            font-size: 3rem;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.03);
-            position: absolute;
-            top: 20px;
-            right: 30px;
-        }
-
-        .about-main-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--text-main);
-        }
-
-        .about-main-card p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .card-line {
-            height: 1px;
-            background: var(--border-color);
-            margin-bottom: 20px;
-        }
-
-        .card-caption {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
-
-        .about-side {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .mini-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-            transition: var(--transition-fast);
-        }
-
-        .mini-card:hover {
-            border-color: var(--border-hover);
-            transform: translateX(5px);
-        }
-
-        .mini-icon {
-            color: #00f2fe;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .mini-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .mini-card p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        /* ==========================================================================
-           7. SECCIÓN HABILIDADES / TECNOLOGÍAS
-           ========================================================================== */
-        .skills-section {
-            padding: 100px 0;
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .skill-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-            position: relative;
-            transition: var(--transition-normal);
-        }
-
-        .skill-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-5px);
-        }
-
-        .skill-index {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
-
-        .skill-icon {
-            width: 45px;
-            height: 45px;
-            background: rgba(0, 242, 254, 0.1);
-            color: #00f2fe;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-
-        .skill-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        .skill-card p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
             margin-bottom: 15px;
+
         }
 
-        .skill-arrow {
-            color: #00f2fe;
-            font-weight: bold;
+        .hero h1 span, .hero h1 strong {
+
             display: inline-block;
-            transition: var(--transition-fast);
-        }
-
-        .skill-card:hover .skill-arrow {
-            transform: translateX(5px);
-        }
-
-        /* ==========================================================================
-           8. SECCIÓN RECORRIDO / SEMANAS
-           ========================================================================== */
-        .journey-section {
-            padding: 100px 0;
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-        }
-
-        .journey-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .journey-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 180px;
-            transition: var(--transition-normal);
-        }
-
-        .journey-card:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-secondary);
-            transform: translateY(-3px);
-        }
-
-        .journey-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .journey-number {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #00f2fe;
-        }
-
-        .journey-arrow {
-            color: var(--text-muted);
-            transition: var(--transition-fast);
-        }
-
-        .journey-card:hover .journey-arrow {
-            color: var(--text-main);
-            transform: translate(2px, -2px);
-        }
-
-        .journey-content span {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-
-        .journey-content h3 {
-            font-size: 1.1rem;
-            margin: 5px 0;
 
         }
 
-        .journey-content p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
 
-        .journey-line {
-            height: 2px;
-            width: 100%;
-            background: var(--border-color);
-            margin-top: 15px;
-            transition: var(--transition-normal);
-        }
 
-        .journey-card:hover .journey-line {
-            background: var(--accent-gradient);
-        }
+        /* =========================================
 
-        /* ==========================================================================
-           9. SECCIÓN PROYECTOS
-           ========================================================================== */
-        .projects-section {
-            padding: 100px 0;
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-        }
+           SOLUCIÓN RESPONSIVE PARA PANTALLAS PEQUEÑAS / MÓVILES
 
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
+           ========================================= */
 
-        .project-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 35px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 220px;
-            transition: var(--transition-normal);
-        }
 
-        .project-large {
-            grid-column: span 2;
-        }
 
-        .project-card:hover {
-            border-color: var(--border-hover);
-        }
-
-        .project-number {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
-
-        .project-icon {
-            font-size: 1.5rem;
-            color: #00f2fe;
-            margin-bottom: 20px;
-        }
-
-        .project-content span {
-            font-size: 0.75rem;
-            color: #00f2fe;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-        }
-
-        .project-content h3 {
-            font-size: 1.4rem;
-            margin: 8px 0;
-        }
-
-        .project-content p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .project-symbol {
-            align-self: flex-end;
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            transition: var(--transition-fast);
-        }
-
-        .project-card:hover .project-symbol {
-            color: #00f2fe;
-            transform: translate(3px, -3px);
-        }
-
-        /* ==========================================================================
-           10. SECCIÓN CONTACTO
-           ========================================================================== */
-        .contact-section {
-            padding: 100px 0;
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-        }
-
-        .contact-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 60px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .contact-heading h2 {
-            font-size: 2.5rem;
-            line-height: 1.2;
-            margin: 15px 0;
-        }
-
-        .contact-heading h2 strong {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .contact-details {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .contact-item {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .contact-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            letter-spacing: 1.5px;
-            font-weight: 700;
-        }
-
-        .contact-item a, .contact-item span {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .contact-item a:hover {
-            color: #00f2fe;
-        }
-
-        .contact-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 30px;
-            background: var(--accent-gradient);
-            border: none;
-            border-radius: 10px;
-            color: #0a0c10;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition-normal);
-            margin-top: 10px;
-        }
-
-        .contact-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.3);
-        }
-
-        /* ==========================================================================
-           11. MODAL DE CONTACTO
-           ========================================================================== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 12, 16, 0.85);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition-normal);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal-contacto {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            position: relative;
-            transform: translateY(20px);
-            transition: var(--transition-normal);
-        }
-
-        .modal-overlay.active .modal-contacto {
-            transform: translateY(0);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-
-        .modal-close:hover {
-            color: var(--text-main);
-        }
-
-        .modal-header {
-            margin-bottom: 25px;
-        }
-
-        .modal-number {
-            font-size: 0.75rem;
-            color: #00f2fe;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-        }
-
-        .modal-header h2 {
-            font-size: 1.8rem;
-            margin: 5px 0;
-        }
-
-        .modal-header p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-main);
-            font-family: inherit;
-            font-size: 0.95rem;
-            outline: none;
-            transition: var(--transition-fast);
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: #00f2fe;
-        }
-
-        .form-group textarea {
-            height: 120px;
-            resize: vertical;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            margin-top: 30px;
-        }
-
-        .btn-cancel {
-            padding: 12px 24px;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-send {
-            padding: 12px 24px;
-            background: var(--accent-gradient);
-            border: none;
-            color: #0a0c10;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* ==========================================================================
-           12. FOOTER
-           ========================================================================== */
-        .footer {
-            border-top: 1px solid var(--border-color);
-            padding: 40px 0;
-            background: var(--bg-primary);
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-brand {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-        }
-
-        .footer p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .footer-top {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            transition: var(--transition-fast);
-        }
-
-        .footer-top:hover {
-            color: #00f2fe;
-        }
-
-        /* ==========================================================================
-           13. MEDIA QUERIES ADICIONALES
-           ========================================================================== */
         @media (max-width: 992px) {
+
             .hero {
-                padding-top: 120px !important;
+
+                padding-top: 100px !important;
+
                 padding-bottom: 40px !important;
+
                 min-height: auto !important;
+
             }
+
+
 
             .hero-container {
+
                 flex-direction: column !important;
+
                 text-align: center !important;
+
                 gap: 35px !important;
+
             }
+
+
 
             .hero-content {
+
                 display: flex !important;
+
                 flex-direction: column !important;
+
                 align-items: center !important;
+
                 width: 100% !important;
+
             }
+
+
 
             .hero-role,
+
             .hero-actions,
+
             .hero-info {
+
                 justify-content: center !important;
+
                 width: 100% !important;
+
             }
+
+
 
             .hero-visual {
+
                 margin-top: 10px !important;
+
                 transform: translateY(0) !important;
+
                 width: 100% !important;
+
                 display: flex !important;
+
                 justify-content: center !important;
+
             }
+
+
 
             .profile-container {
-                transform: scale(0.85) !important;
+
+                transform: scale(0.80) !important;
+
             }
 
-            .about-layout,
-            .contact-container {
-                grid-template-columns: 1fr;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-large {
-                grid-column: span 1;
-            }
         }
+
+
 
         @media (max-width: 500px) {
+
             .profile-container {
+
                 transform: scale(0.70) !important;
+
             }
 
-            .nav-links {
-                display: none;
-            }
-
-            .hero-info {
-                gap: 20px;
-            }
-
-            .footer-container {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
         }
+
     </style>
+
+
+
 </head>
+
+
+
 <body>
 
-<!-- FONDO DECORATIVO -->
+
+
+
+
+<!-- =====================================================
+
+     FONDO DECORATIVO
+
+     ===================================================== -->
+
+
+
 <div class="background-shape shape-one"></div>
+
 <div class="background-shape shape-two"></div>
+
+
+
 <div class="grid-background"></div>
 
-<!-- NAVEGACIÓN -->
+
+
+
+
+<!-- =====================================================
+
+     NAVEGACIÓN
+
+     ===================================================== -->
+
+
+
 <header class="navbar">
+
+
+
     <div class="navbar-container">
+
+
+
         <a href="#inicio" class="brand">
+
+
+
             <span class="brand-symbol">&lt;/&gt;</span>
-            <span class="brand-name">RMOISES</span>
+
+
+
+            <span class="brand-name">
+
+                MOISES
+
+            </span>
+
+
+
         </a>
+
+
+
+
 
         <nav>
+
+
+
             <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#sobre-mi">Perfil</a></li>
-                <li><a href="#habilidades">Tecnologías</a></li>
-                <li><a href="#semanas">Mi recorrido</a></li>
-                <li><a href="#contacto">Hablemos</a></li>
+
+
+
+                <li>
+
+                    <a href="#inicio">
+
+                        Inicio
+
+                    </a>
+
+                </li>
+
+
+
+                <li>
+
+                    <a href="#sobre-mi">
+
+                        Perfil
+
+                    </a>
+
+                </li>
+
+
+
+                <li>
+
+                    <a href="#habilidades">
+
+                        Tecnologías
+
+                    </a>
+
+                </li>
+
+
+
+                <li>
+
+                    <a href="#semanas">
+
+                        Mi recorrido
+
+                    </a>
+
+                </li>
+
+
+
+                <li>
+
+                    <a href="#contacto">
+
+                        Hablemos
+
+                    </a>
+
+                </li>
+
+
+
             </ul>
+
+
+
         </nav>
+
+
+
     </div>
+
+
+
 </header>
 
-<!-- INICIO / HERO -->
-<section class="hero" id="inicio">
+
+
+
+
+<!-- =====================================================
+
+     INICIO / HERO
+
+     ===================================================== -->
+
+
+
+<section class="hero"
+
+         id="inicio">
+
+
+
     <div class="hero-container">
 
+
+
+
+
         <!-- TEXTO PRINCIPAL -->
+
+
+
         <div class="hero-content">
+
+
+
             <div class="hero-label">
+
+
+
                 <span class="status-dot"></span>
+
+
+
                 PORTAFOLIO ACADÉMICO
+
+
+
             </div>
+
+
+
+
 
             <h1>
+
                 Hola, soy
+
                 <span th:text="${perfil.nombre}">Moises</span>
+
                 <strong th:text="${perfil.apellidos}">Molina Crispin</strong>
+
             </h1>
 
+
+
+
+
             <div class="hero-role">
+
+
+
                 <span class="role-line"></span>
-                <span th:text="${perfil.carrera}">Diseño y Programación Web</span>
+
+
+
+                <span th:text="${perfil.carrera}">
+
+                    Diseño y Programación Web
+
+                </span>
+
+
+
             </div>
 
-            <p class="hero-description" th:text="${perfil.descripcion}">
+
+
+
+
+            <p class="hero-description"
+
+               th:text="${perfil.descripcion}">
+
+
+
                 Estudiante de Diseño y Programación Web. Portafolio académico correspondiente a las 16 semanas de clase.
+
+
+
             </p>
+
+
+
+
 
             <div class="hero-actions">
-                <a href="#semanas" class="btn-main">
-                    Ver mi trabajo <span>→</span>
+
+
+
+                <a href="#semanas"
+
+                   class="btn-main">
+
+
+
+                    Ver mi trabajo
+
+
+
+                    <span>→</span>
+
+
+
                 </a>
-                <a href="#contacto" class="btn-secondary">
+
+
+
+
+
+                <a href="#contacto"
+
+                   class="btn-secondary">
+
+
+
                     Contactarme
+
+
+
                 </a>
+
+
+
             </div>
+
+
+
+
 
             <!-- PEQUEÑOS DATOS -->
+
+
+
             <div class="hero-info">
+
+
+
                 <div>
-                    <span class="info-number">16</span>
-                    <span class="info-text">Semanas</span>
+
+
+
+                    <span class="info-number">
+
+                        16
+
+                    </span>
+
+
+
+                    <span class="info-text">
+
+                        Semanas
+
+                    </span>
+
+
+
                 </div>
+
+
+
+
+
                 <div>
-                    <span class="info-number">∞</span>
-                    <span class="info-text">Aprendizaje</span>
+
+
+
+                    <span class="info-number">
+
+                        ∞
+
+                    </span>
+
+
+
+                    <span class="info-text">
+
+                        Aprendizaje
+
+                    </span>
+
+
+
                 </div>
+
+
+
+
+
                 <div>
-                    <span class="info-number">01</span>
-                    <span class="info-text">Portafolio</span>
+
+
+
+                    <span class="info-number">
+
+                        01
+
+                    </span>
+
+
+
+                    <span class="info-text">
+
+                        Portafolio
+
+                    </span>
+
+
+
                 </div>
+
+
+
             </div>
+
+
+
         </div>
+
+
+
+
 
         <!-- FOTO -->
+
+
+
         <div class="hero-visual">
+
+
+
             <div class="visual-decoration decoration-one"></div>
+
+
+
             <div class="visual-decoration decoration-two"></div>
 
+
+
+
+
             <div class="profile-container">
+
+
+
                 <div class="profile-ring"></div>
 
+
+
+
+
                 <div class="profile-image-box">
+
+
+
                     <!-- Si tiene foto en Cloudinary (empieza con http) -->
+
                     <img class="profile-photo"
+
                          th:if="${perfil.foto != null and !perfil.foto.isEmpty() and #strings.startsWith(perfil.foto, 'http')}"
+
                          th:src="${perfil.foto}"
+
                          th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
+
+
 
                     <!-- Si tiene foto guardada localmente (nombre de archivo) -->
+
                     <img class="profile-photo"
+
                          th:if="${perfil.foto != null and !perfil.foto.isEmpty() and !#strings.startsWith(perfil.foto, 'http')}"
+
                          th:src="@{'/publico/imagen/' + ${perfil.foto}}"
+
                          th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
 
+
+
                     <!-- Si no tiene foto -->
+
                     <img class="profile-photo"
+
                          th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
-                         th:src="@{/images/image_369f5f.jpg}"
+
+                         src="images/image_369f5f.jpg"
+
                          alt="Foto de perfil">
+
+
+
                 </div>
 
-                <div class="floating-code code-one">&lt;html&gt;</div>
-                <div class="floating-code code-two">{ code }</div>
-                <div class="floating-code code-three">Java</div>
-            </div>
-        </div>
 
-    </div>
-</section>
 
-<!-- SOBRE MÍ -->
-<section class="about-section" id="sobre-mi">
-    <div class="section-heading">
-        <span class="section-tag">01 / PERFIL</span>
-        <h2>Conóceme un poco</h2>
-        <p>Una mirada a mi formación, intereses y forma de entender el desarrollo web.</p>
-    </div>
 
-    <div class="about-layout">
-        <!-- DESCRIPCIÓN PRINCIPAL -->
-        <div class="about-main-card">
-            <div class="card-number">01</div>
-            <h3>Sobre mí</h3>
-            <p th:text="${perfil.sobreMi}">
-                Soy estudiante de Diseño y Programación Web interesado en aprender, experimentar y desarrollar proyectos digitales.
-            </p>
-            <div class="card-line"></div>
-            <span class="card-caption">CREATIVIDAD + TECNOLOGÍA</span>
-        </div>
 
-        <!-- TARJETAS -->
-        <div class="about-side">
-            <div class="mini-card">
-                <span class="mini-icon">◈</span>
-                <div>
-                    <h3>Diseño</h3>
-                    <p>Me enfoco en interfaces claras, atractivas y cómodas para el usuario.</p>
+                <div class="floating-code code-one">
+
+                    &lt;html&gt;
+
                 </div>
-            </div>
 
-            <div class="mini-card">
-                <span class="mini-icon">&lt;/&gt;</span>
-                <div>
-                    <h3>Desarrollo</h3>
-                    <p>Transformo conceptos en aplicaciones web funcionales y dinámicas.</p>
+
+
+                <div class="floating-code code-two">
+
+                    { code }
+
                 </div>
-            </div>
 
-            <div class="mini-card">
-                <span class="mini-icon">↗</span>
-                <div>
-                    <h3>Evolución</h3>
-                    <p>Cada proyecto representa una nueva oportunidad para mejorar mis habilidades.</p>
+
+
+                <div class="floating-code code-three">
+
+                    Java
+
                 </div>
+
+
+
             </div>
+
+
+
         </div>
+
+
+
     </div>
+
+
+
 </section>
 
-<!-- TECNOLOGÍAS -->
-<section class="skills-section" id="habilidades">
+
+
+
+
+<!-- =====================================================
+
+     SOBRE MÍ
+
+     ===================================================== -->
+
+
+
+<section class="about-section"
+
+         id="sobre-mi">
+
+
+
     <div class="section-heading">
-        <span class="section-tag">02 / STACK</span>
-        <h2>Herramientas que estoy aprendiendo</h2>
-        <p>Tecnologías que forman parte de mi proceso de formación como desarrollador web.</p>
-    </div>
 
-    <div class="skills-grid">
-        <div class="skill-card">
-            <span class="skill-index">01</span>
-            <div class="skill-icon">HTML</div>
-            <h3>HTML</h3>
-            <p>Construcción de estructuras web semánticas y organizadas.</p>
-            <span class="skill-arrow">→</span>
-        </div>
 
-        <div class="skill-card">
-            <span class="skill-index">02</span>
-            <div class="skill-icon">CSS</div>
-            <h3>CSS</h3>
-            <p>Creación de interfaces visuales, diseños adaptables y efectos modernos.</p>
-            <span class="skill-arrow">→</span>
-        </div>
 
-        <div class="skill-card">
-            <span class="skill-index">03</span>
-            <div class="skill-icon">JS</div>
-            <h3>JavaScript</h3>
-            <p>Interactividad y comportamiento dinámico para las aplicaciones web.</p>
-            <span class="skill-arrow">→</span>
-        </div>
+        <span class="section-tag">
 
-        <div class="skill-card">
-            <span class="skill-index">04</span>
-            <div class="skill-icon">JV</div>
-            <h3>Java</h3>
-            <p>Programación orientada a objetos y desarrollo de aplicaciones.</p>
-            <span class="skill-arrow">→</span>
-        </div>
+            01 / PERFIL
 
-        <div class="skill-card">
-            <span class="skill-index">05</span>
-            <div class="skill-icon">SB</div>
-            <h3>Spring Boot</h3>
-            <p>Construcción de aplicaciones web y servicios utilizando el ecosistema Spring.</p>
-            <span class="skill-arrow">→</span>
-        </div>
+        </span>
 
-        <div class="skill-card">
-            <span class="skill-index">06</span>
-            <div class="skill-icon">SQL</div>
-            <h3>MySQL</h3>
-            <p>Organización, almacenamiento y gestión de información mediante bases de datos.</p>
-            <span class="skill-arrow">→</span>
-        </div>
-    </div>
-</section>
 
-<!-- SEMANAS -->
-<section class="journey-section" id="semanas">
-    <div class="section-heading">
-        <span class="section-tag">03 / RECORRIDO</span>
-        <h2>Mi camino de aprendizaje</h2>
-        <p>Explora las 16 etapas de mi formación y descubre los trabajos realizados en cada semana.</p>
-    </div>
 
-    <div class="journey-grid">
-        <a th:each="semana : ${semanas}" th:href="@{/semana/{id}(id=${semana.id})}" class="journey-card">
-            <div class="journey-top">
-                <span class="journey-number" th:text="${#numbers.formatInteger(semana.numero, 2)}">01</span>
-                <span class="journey-arrow">↗</span>
-            </div>
-            <div class="journey-content">
-                <span>SEMANA</span>
-                <h3 th:text="${semana.titulo}">Introducción</h3>
-                <p th:text="${semana.descripcion}">Contenido y actividades desarrolladas durante esta etapa.</p>
-            </div>
-            <div class="journey-line"></div>
-        </a>
-    </div>
-</section>
+        <h2>
 
-<!-- PROYECTOS -->
-<section class="projects-section">
-    <div class="section-heading">
-        <span class="section-tag">04 / PROYECTOS</span>
-        <h2>Lo que estoy construyendo</h2>
-        <p>Algunos de los proyectos que representan mi evolución durante la carrera.</p>
-    </div>
+            Conóceme un poco
 
-    <div class="projects-grid">
-        <article class="project-card project-large">
-            <div class="project-number">01</div>
-            <div class="project-icon">&lt;/&gt;</div>
-            <div class="project-content">
-                <span>DESARROLLO WEB</span>
-                <h3>Aplicaciones digitales</h3>
-                <p>Proyectos orientados a resolver necesidades mediante aplicaciones web funcionales.</p>
-            </div>
-            <span class="project-symbol">↗</span>
-        </article>
+        </h2>
 
-        <article class="project-card">
-            <div class="project-number">02</div>
-            <div class="project-icon">◫</div>
-            <div class="project-content">
-                <span>INTERFAZ</span>
-                <h3>Experiencias visuales</h3>
-                <p>Diseños pensados para combinar estética, claridad y facilidad de navegación.</p>
-            </div>
-            <span class="project-symbol">↗</span>
-        </article>
 
-        <article class="project-card">
-            <div class="project-number">03</div>
-            <div class="project-icon">DB</div>
-            <div class="project-content">
-                <span>BACKEND</span>
-                <h3>Sistemas y datos</h3>
-                <p>Aplicaciones conectadas a bases de datos para gestionar información.</p>
-            </div>
-            <span class="project-symbol">↗</span>
-        </article>
-    </div>
-</section>
-
-<!-- CONTACTO -->
-<section class="contact-section" id="contacto">
-    <div class="contact-container">
-        <div class="contact-heading">
-            <span class="section-tag">05 / CONTACTO</span>
-            <h2>¿Tienes una idea? <strong>Hablemos.</strong></h2>
-            <p>Si quieres conocer mis proyectos, compartir una propuesta o simplemente conversar, puedes escribirme.</p>
-        </div>
-
-        <div class="contact-details">
-            <!-- CORREO -->
-            <div class="contact-item" th:if="${perfil.correo != null and !perfil.correo.isEmpty()}">
-                <span class="contact-label">CORREO</span>
-                <a th:href="'mailto:' + ${perfil.correo}" th:text="${perfil.correo}">correo@ejemplo.com</a>
-            </div>
-
-            <!-- TELÉFONO -->
-            <div class="contact-item" th:if="${perfil.telefono != null and !perfil.telefono.isEmpty()}">
-                <span class="contact-label">TELÉFONO</span>
-                <span th:text="${perfil.telefono}">+51 999 999 999</span>
-            </div>
-
-            <button type="button" id="btnAbrirMensaje" class="contact-button">
-                <span>Enviar un mensaje</span>
-                <strong>→</strong>
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- MODAL DE CONTACTO -->
-<div id="modalMensaje" class="modal-overlay">
-    <div class="modal-contacto">
-        <button type="button" id="btnCerrarMensaje" class="modal-close" aria-label="Cerrar">×</button>
-
-        <div class="modal-header">
-            <span class="modal-number">CONTACTO</span>
-            <div class="modal-icon">↗</div>
-            <h2>Escríbeme</h2>
-            <p>Déjame tus datos y tu mensaje. Revisaré tu solicitud y responderé lo antes posible.</p>
-        </div>
-
-        <form id="formularioContacto" th:action="@{/mensaje/enviar}" method="post">
-            <div class="form-group">
-                <label for="nombre">Nombre completo</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
-            </div>
-
-            <div class="form-group">
-                <label for="correo">Correo electrónico</label>
-                <input type="email" id="correo" name="correo" placeholder="tu@email.com" required>
-            </div>
-
-            <div class="form-group">
-                <label for="asunto">Asunto</label>
-                <input type="text" id="asunto" name="asunto" placeholder="Motivo del mensaje" required>
-            </div>
-
-            <div class="form-group">
-                <label for="mensaje">Mensaje</label>
-                <textarea id="mensaje" name="mensaje" placeholder="Cuéntame qué tienes en mente..." required></textarea>
-            </div>
-
-            <div class="modal-buttons">
-                <button type="button" id="btnCancelarMensaje" class="btn-cancel">Cancelar</button>
-                <button type="submit" class="btn-send">
-                    Enviar mensaje <span>→</span>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-brand">
-            <span class="brand-symbol">&lt;/&gt;</span>
-            <span>RMOISES</span>
-        </div>
 
         <p>
-            © 2026
-            <span th:text="${perfil.nombre + ' ' + perfil.apellidos}">Molina Crispin, Moises</span> ·
-            <span th:text="${perfil.carrera}">Diseño y Programación Web</span>
+
+            Una mirada a mi formación, intereses y forma
+
+            de entender el desarrollo web.
+
         </p>
 
-        <a href="#inicio" class="footer-top">Volver arriba ↑</a>
+
+
     </div>
+
+
+
+
+
+    <div class="about-layout">
+
+
+
+
+
+        <!-- DESCRIPCIÓN PRINCIPAL -->
+
+
+
+        <div class="about-main-card">
+
+
+
+            <div class="card-number">
+
+                01
+
+            </div>
+
+
+
+            <h3>
+
+                Sobre mí
+
+            </h3>
+
+
+
+            <p th:text="${perfil.sobreMi}">
+
+
+
+                Soy estudiante de Diseño y Programación Web
+
+                interesado en aprender, experimentar y
+
+                desarrollar proyectos digitales.
+
+
+
+            </p>
+
+
+
+            <div class="card-line"></div>
+
+
+
+            <span class="card-caption">
+
+                CREATIVIDAD + TECNOLOGÍA
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+        <!-- TARJETAS -->
+
+
+
+        <div class="about-side">
+
+
+
+
+
+            <div class="mini-card">
+
+
+
+                <span class="mini-icon">
+
+                    ◈
+
+                </span>
+
+
+
+                <div>
+
+
+
+                    <h3>
+
+                        Diseño
+
+                    </h3>
+
+
+
+                    <p>
+
+                        Me enfoco en interfaces claras,
+
+                        atractivas y cómodas para el usuario.
+
+                    </p>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="mini-card">
+
+
+
+                <span class="mini-icon">
+
+                    &lt;/&gt;
+
+                </span>
+
+
+
+                <div>
+
+
+
+                    <h3>
+
+                        Desarrollo
+
+                    </h3>
+
+
+
+                    <p>
+
+                        Transformo conceptos en aplicaciones
+
+                        web funcionales y dinámicas.
+
+                    </p>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="mini-card">
+
+
+
+                <span class="mini-icon">
+
+                    ↗
+
+                </span>
+
+
+
+                <div>
+
+
+
+                    <h3>
+
+                        Evolución
+
+                    </h3>
+
+
+
+                    <p>
+
+                        Cada proyecto representa una nueva
+
+                        oportunidad para mejorar mis habilidades.
+
+                    </p>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     TECNOLOGÍAS
+
+     ===================================================== -->
+
+
+
+<section class="skills-section"
+
+         id="habilidades">
+
+
+
+
+
+    <div class="section-heading">
+
+
+
+        <span class="section-tag">
+
+            02 / STACK
+
+        </span>
+
+
+
+        <h2>
+
+            Herramientas que estoy aprendiendo
+
+        </h2>
+
+
+
+        <p>
+
+            Tecnologías que forman parte de mi proceso
+
+            de formación como desarrollador web.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+    <div class="skills-grid">
+
+
+
+
+
+        <div class="skill-card">
+
+
+
+            <span class="skill-index">
+
+                01
+
+            </span>
+
+
+
+            <div class="skill-icon">
+
+                HTML
+
+            </div>
+
+
+
+            <h3>
+
+                HTML
+
+            </h3>
+
+
+
+            <p>
+
+                Construcción de estructuras web semánticas
+
+                y organizadas.
+
+            </p>
+
+
+
+            <span class="skill-arrow">
+
+                →
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="skill-card">
+
+
+
+            <span class="skill-index">
+
+                02
+
+            </span>
+
+
+
+            <div class="skill-icon">
+
+                CSS
+
+            </div>
+
+
+
+            <h3>
+
+                CSS
+
+            </h3>
+
+
+
+            <p>
+
+                Creación de interfaces visuales, diseños
+
+                adaptables y efectos modernos.
+
+            </p>
+
+
+
+            <span class="skill-arrow">
+
+                →
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="skill-card">
+
+
+
+            <span class="skill-index">
+
+                03
+
+            </span>
+
+
+
+            <div class="skill-icon">
+
+                JS
+
+            </div>
+
+
+
+            <h3>
+
+                JavaScript
+
+            </h3>
+
+
+
+            <p>
+
+                Interactividad y comportamiento dinámico
+
+                para las aplicaciones web.
+
+            </p>
+
+
+
+            <span class="skill-arrow">
+
+                →
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="skill-card">
+
+
+
+            <span class="skill-index">
+
+                04
+
+            </span>
+
+
+
+            <div class="skill-icon">
+
+                JV
+
+            </div>
+
+
+
+            <h3>
+
+                Java
+
+            </h3>
+
+
+
+            <p>
+
+                Programación orientada a objetos y desarrollo
+
+                de aplicaciones.
+
+            </p>
+
+
+
+            <span class="skill-arrow">
+
+                →
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="skill-card">
+
+
+
+            <span class="skill-index">
+
+                05
+
+            </span>
+
+
+
+            <div class="skill-icon">
+
+                SB
+
+            </div>
+
+
+
+            <h3>
+
+                Spring Boot
+
+            </h3>
+
+
+
+            <p>
+
+                Construcción de aplicaciones web y servicios
+
+                utilizando el ecosistema Spring.
+
+            </p>
+
+
+
+            <span class="skill-arrow">
+
+                →
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="skill-card">
+
+
+
+            <span class="skill-index">
+
+                06
+
+            </span>
+
+
+
+            <div class="skill-icon">
+
+                SQL
+
+            </div>
+
+
+
+            <h3>
+
+                MySQL
+
+            </h3>
+
+
+
+            <p>
+
+                Organización, almacenamiento y gestión
+
+                de información mediante bases de datos.
+
+            </p>
+
+
+
+            <span class="skill-arrow">
+
+                →
+
+            </span>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     SEMANAS
+
+     ===================================================== -->
+
+
+
+<section class="journey-section"
+
+         id="semanas">
+
+
+
+
+
+    <div class="section-heading">
+
+
+
+        <span class="section-tag">
+
+            03 / RECORRIDO
+
+        </span>
+
+
+
+        <h2>
+
+            Mi camino de aprendizaje
+
+        </h2>
+
+
+
+        <p>
+
+            Explora las 16 etapas de mi formación y descubre
+
+            los trabajos realizados en cada semana.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+    <div class="journey-grid">
+
+
+
+
+
+        <a
+
+                th:each="semana : ${semanas}"
+
+
+
+                th:href="@{/semana/{id}(id=${semana.id})}"
+
+
+
+                class="journey-card">
+
+
+
+
+
+            <div class="journey-top">
+
+
+
+                <span class="journey-number"
+
+                      th:text="${#numbers.formatInteger(semana.numero, 2)}">
+
+
+
+                    01
+
+
+
+                </span>
+
+
+
+                <span class="journey-arrow">
+
+                    ↗
+
+                </span>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="journey-content">
+
+
+
+                <span>
+
+                    SEMANA
+
+                </span>
+
+
+
+                <h3 th:text="${semana.titulo}">
+
+
+
+                    Introducción
+
+
+
+                </h3>
+
+
+
+                <p th:text="${semana.descripcion}">
+
+
+
+                    Contenido y actividades desarrolladas
+
+                    durante esta etapa.
+
+
+
+                </p>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="journey-line"></div>
+
+
+
+        </a>
+
+
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     PROYECTOS
+
+     ===================================================== -->
+
+
+
+<section class="projects-section">
+
+
+
+
+
+    <div class="section-heading">
+
+
+
+        <span class="section-tag">
+
+            04 / PROYECTOS
+
+        </span>
+
+
+
+        <h2>
+
+            Lo que estoy construyendo
+
+        </h2>
+
+
+
+        <p>
+
+            Algunos de los proyectos que representan mi
+
+            evolución durante la carrera.
+
+        </p>
+
+
+
+    </div>
+
+
+
+
+
+    <div class="projects-grid">
+
+
+
+
+
+        <article class="project-card project-large">
+
+
+
+            <div class="project-number">
+
+                01
+
+            </div>
+
+
+
+            <div class="project-icon">
+
+                &lt;/&gt;
+
+            </div>
+
+
+
+            <div class="project-content">
+
+
+
+                <span>
+
+                    DESARROLLO WEB
+
+                </span>
+
+
+
+                <h3>
+
+                    Aplicaciones digitales
+
+                </h3>
+
+
+
+                <p>
+
+                    Proyectos orientados a resolver necesidades
+
+                    mediante aplicaciones web funcionales.
+
+                </p>
+
+
+
+            </div>
+
+
+
+            <span class="project-symbol">
+
+                ↗
+
+            </span>
+
+
+
+        </article>
+
+
+
+
+
+        <article class="project-card">
+
+
+
+            <div class="project-number">
+
+                02
+
+            </div>
+
+
+
+            <div class="project-icon">
+
+                ◫
+
+            </div>
+
+
+
+            <div class="project-content">
+
+
+
+                <span>
+
+                    INTERFAZ
+
+                </span>
+
+
+
+                <h3>
+
+                    Experiencias visuales
+
+                </h3>
+
+
+
+                <p>
+
+                    Diseños pensados para combinar estética,
+
+                    claridad y facilidad de navegación.
+
+                </p>
+
+
+
+            </div>
+
+
+
+            <span class="project-symbol">
+
+                ↗
+
+            </span>
+
+
+
+        </article>
+
+
+
+
+
+        <article class="project-card">
+
+
+
+            <div class="project-number">
+
+                03
+
+            </div>
+
+
+
+            <div class="project-icon">
+
+                DB
+
+            </div>
+
+
+
+            <div class="project-content">
+
+
+
+                <span>
+
+                    BACKEND
+
+                </span>
+
+
+
+                <h3>
+
+                    Sistemas y datos
+
+                </h3>
+
+
+
+                <p>
+
+                    Aplicaciones conectadas a bases de datos
+
+                    para gestionar información.
+
+                </p>
+
+
+
+            </div>
+
+
+
+            <span class="project-symbol">
+
+                ↗
+
+            </span>
+
+
+
+        </article>
+
+
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     CONTACTO
+
+     ===================================================== -->
+
+
+
+<section class="contact-section"
+
+         id="contacto">
+
+
+
+
+
+    <div class="contact-container">
+
+
+
+
+
+        <div class="contact-heading">
+
+
+
+            <span class="section-tag">
+
+                05 / CONTACTO
+
+            </span>
+
+
+
+            <h2>
+
+                ¿Tienes una idea?
+
+                <strong>
+
+                    Hablemos.
+
+                </strong>
+
+            </h2>
+
+
+
+            <p>
+
+                Si quieres conocer mis proyectos, compartir
+
+                una propuesta o simplemente conversar,
+
+                puedes escribirme.
+
+            </p>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="contact-details">
+
+
+
+
+
+            <!-- CORREO -->
+
+
+
+            <div
+
+                    class="contact-item"
+
+
+
+                    th:if="${perfil.correo != null and !perfil.correo.isEmpty()}">
+
+
+
+                <span class="contact-label">
+
+                    CORREO
+
+                </span>
+
+
+
+                <a
+
+                        th:href="'mailto:' + ${perfil.correo}"
+
+
+
+                        th:text="${perfil.correo}">
+
+
+
+                    correo@ejemplo.com
+
+
+
+                </a>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- TELÉFONO -->
+
+
+
+            <div
+
+                    class="contact-item"
+
+
+
+                    th:if="${perfil.telefono != null and !perfil.telefono.isEmpty()}">
+
+
+
+                <span class="contact-label">
+
+                    TELÉFONO
+
+                </span>
+
+
+
+                <span th:text="${perfil.telefono}">
+
+                    +51 999 999 999
+
+                </span>
+
+
+
+            </div>
+
+
+
+
+
+            <button
+
+                    type="button"
+
+
+
+                    id="btnAbrirMensaje"
+
+
+
+                    class="contact-button">
+
+
+
+                <span>
+
+                    Enviar un mensaje
+
+                </span>
+
+
+
+                <strong>
+
+                    →
+
+                </strong>
+
+
+
+            </button>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+
+
+<!-- =====================================================
+
+     MODAL DE CONTACTO
+
+     ===================================================== -->
+
+
+
+<div id="modalMensaje"
+
+     class="modal-overlay">
+
+
+
+
+
+    <div class="modal-contacto">
+
+
+
+
+
+        <button
+
+                type="button"
+
+
+
+                id="btnCerrarMensaje"
+
+
+
+                class="modal-close"
+
+
+
+                aria-label="Cerrar">
+
+
+
+            ×
+
+
+
+        </button>
+
+
+
+
+
+        <div class="modal-header">
+
+
+
+            <span class="modal-number">
+
+                CONTACTO
+
+            </span>
+
+
+
+            <div class="modal-icon">
+
+                ↗
+
+            </div>
+
+
+
+            <h2>
+
+                Escríbeme
+
+            </h2>
+
+
+
+            <p>
+
+                Déjame tus datos y tu mensaje. Revisaré
+
+                tu solicitud y responderé lo antes posible.
+
+            </p>
+
+
+
+        </div>
+
+
+
+
+
+        <form
+
+                id="formularioContacto"
+
+
+
+                th:action="@{/mensaje/enviar}"
+
+
+
+                method="post">
+
+
+
+
+
+            <div class="form-group">
+
+
+
+                <label for="nombre">
+
+                    Nombre completo
+
+                </label>
+
+
+
+                <input
+
+                        type="text"
+
+
+
+                        id="nombre"
+
+
+
+                        name="nombre"
+
+
+
+                        placeholder="Tu nombre"
+
+
+
+                        required>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+
+
+                <label for="correo">
+
+                    Correo electrónico
+
+                </label>
+
+
+
+                <input
+
+                        type="email"
+
+
+
+                        id="correo"
+
+
+
+                        name="correo"
+
+
+
+                        placeholder="tu@email.com"
+
+
+
+                        required>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+
+
+                <label for="asunto">
+
+                    Asunto
+
+                </label>
+
+
+
+                <input
+
+                        type="text"
+
+
+
+                        id="asunto"
+
+
+
+                        name="asunto"
+
+
+
+                        placeholder="Motivo del mensaje"
+
+
+
+                        required>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+
+
+                <label for="mensaje">
+
+                    Mensaje
+
+                </label>
+
+
+
+                <textarea
+
+                        id="mensaje"
+
+
+
+                        name="mensaje"
+
+
+
+                        placeholder="Cuéntame qué tienes en mente..."
+
+
+
+                        required></textarea>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="modal-buttons">
+
+
+
+
+
+                <button
+
+                        type="button"
+
+
+
+                        id="btnCancelarMensaje"
+
+
+
+                        class="btn-cancel">
+
+
+
+                    Cancelar
+
+
+
+                </button>
+
+
+
+
+
+                <button
+
+                        type="submit"
+
+
+
+                        class="btn-send">
+
+
+
+                    Enviar mensaje
+
+
+
+                    <span>
+
+                        →
+
+                    </span>
+
+
+
+                </button>
+
+
+
+
+
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+<!-- =====================================================
+
+     FOOTER
+
+     ===================================================== -->
+
+
+
+<footer class="footer">
+
+
+
+
+
+    <div class="footer-container">
+
+
+
+
+
+        <div class="footer-brand">
+
+
+
+            <span class="brand-symbol">
+
+                &lt;/&gt;
+
+            </span>
+
+
+
+            <span>
+
+                MOISES
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+        <p>
+
+
+
+            © 2026
+
+
+
+            <span th:text="${perfil.nombre + ' ' + perfil.apellidos}">
+
+                Molina Crispin, Moises
+
+            </span>
+
+
+
+            ·
+
+
+
+            <span th:text="${perfil.carrera}">
+
+                Diseño y Programación Web
+
+            </span>
+
+
+
+        </p>
+
+
+
+
+
+        <a href="#inicio"
+
+           class="footer-top">
+
+
+
+            Volver arriba ↑
+
+
+
+        </a>
+
+
+
+    </div>
+
+
+
 </footer>
 
-<!-- JAVASCRIPT -->
+
+
+
+
+<!-- =====================================================
+
+     JAVASCRIPT
+
+     ===================================================== -->
+
+
+
 <script th:src="@{/js/publico.js}"></script>
 
+
+
+
+
 </body>
+
+
+
 </html>
