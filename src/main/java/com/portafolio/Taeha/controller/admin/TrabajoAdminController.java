@@ -6,16 +6,14 @@ import com.portafolio.Taeha.repository.SemanaRepository;
 import com.portafolio.Taeha.repository.TrabajoRepository;
 import com.portafolio.Taeha.service.ArchivoService;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin/trabajos")
@@ -122,7 +120,7 @@ public class TrabajoAdminController {
 
 
     // =========================================================
-    // GUARDAR / ACTUALIZAR TRABAJO (EN MYSQL DIRECTO)
+    // GUARDAR / ACTUALIZAR TRABAJO
     // =========================================================
 
     @PostMapping("/guardar")
@@ -139,7 +137,7 @@ public class TrabajoAdminController {
                     value = "archivoTrabajo",
                     required = false
             )
-            MultipartFile archivoTrabajo) throws IOException {
+            MultipartFile archivoTrabajo) {
 
 
         // =====================================================
@@ -181,20 +179,66 @@ public class TrabajoAdminController {
 
 
             // -------------------------------------------------
-            // NUEVA IMAGEN (LONGBLOB EN MYSQL)
+            // NUEVA IMAGEN
             // -------------------------------------------------
 
-            if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
-                trabajoExistente.setImagen(imagenArchivo.getBytes());
+            if (imagenArchivo != null &&
+                    !imagenArchivo.isEmpty()) {
+
+                String imagenAnterior =
+                        trabajoExistente.getImagen();
+
+                String nuevaImagen =
+                        archivoService.guardarImagen(
+                                imagenArchivo
+                        );
+
+                trabajoExistente.setImagen(
+                        nuevaImagen
+                );
+
+
+                // Eliminar imagen anterior
+
+                if (imagenAnterior != null &&
+                        !imagenAnterior.isBlank()) {
+
+                    archivoService.eliminarImagen(
+                            imagenAnterior
+                    );
+                }
             }
 
 
             // -------------------------------------------------
-            // NUEVO ARCHIVO (LONGBLOB EN MYSQL)
+            // NUEVO ARCHIVO
             // -------------------------------------------------
 
-            if (archivoTrabajo != null && !archivoTrabajo.isEmpty()) {
-                trabajoExistente.setArchivo(archivoTrabajo.getBytes());
+            if (archivoTrabajo != null &&
+                    !archivoTrabajo.isEmpty()) {
+
+                String archivoAnterior =
+                        trabajoExistente.getArchivo();
+
+                String nuevoArchivo =
+                        archivoService.guardarArchivo(
+                                archivoTrabajo
+                        );
+
+                trabajoExistente.setArchivo(
+                        nuevoArchivo
+                );
+
+
+                // Eliminar archivo anterior
+
+                if (archivoAnterior != null &&
+                        !archivoAnterior.isBlank()) {
+
+                    archivoService.eliminarArchivo(
+                            archivoAnterior
+                    );
+                }
             }
 
 
@@ -220,20 +264,38 @@ public class TrabajoAdminController {
 
 
         // -----------------------------------------------------
-        // GUARDAR IMAGEN EN MYSQL
+        // GUARDAR IMAGEN
         // -----------------------------------------------------
 
-        if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
-            trabajo.setImagen(imagenArchivo.getBytes());
+        if (imagenArchivo != null &&
+                !imagenArchivo.isEmpty()) {
+
+            String nombreImagen =
+                    archivoService.guardarImagen(
+                            imagenArchivo
+                    );
+
+            trabajo.setImagen(
+                    nombreImagen
+            );
         }
 
 
         // -----------------------------------------------------
-        // GUARDAR ARCHIVO EN MYSQL
+        // GUARDAR ARCHIVO
         // -----------------------------------------------------
 
-        if (archivoTrabajo != null && !archivoTrabajo.isEmpty()) {
-            trabajo.setArchivo(archivoTrabajo.getBytes());
+        if (archivoTrabajo != null &&
+                !archivoTrabajo.isEmpty()) {
+
+            String nombreArchivo =
+                    archivoService.guardarArchivo(
+                            archivoTrabajo
+                    );
+
+            trabajo.setArchivo(
+                    nombreArchivo
+            );
         }
 
 
@@ -310,7 +372,44 @@ public class TrabajoAdminController {
 
 
         // -----------------------------------------------------
-        // ELIMINAR REGISTRO DE MYSQL (FOTO Y ARCHIVO SE BORRAN SOLOS)
+        // OBTENER ARCHIVOS
+        // -----------------------------------------------------
+
+        String imagen =
+                trabajo.getImagen();
+
+        String archivo =
+                trabajo.getArchivo();
+
+
+        // -----------------------------------------------------
+        // ELIMINAR IMAGEN FÍSICA
+        // -----------------------------------------------------
+
+        if (imagen != null &&
+                !imagen.isBlank()) {
+
+            archivoService.eliminarImagen(
+                    imagen
+            );
+        }
+
+
+        // -----------------------------------------------------
+        // ELIMINAR ARCHIVO FÍSICO
+        // -----------------------------------------------------
+
+        if (archivo != null &&
+                !archivo.isBlank()) {
+
+            archivoService.eliminarArchivo(
+                    archivo
+            );
+        }
+
+
+        // -----------------------------------------------------
+        // ELIMINAR REGISTRO DE MYSQL
         // -----------------------------------------------------
 
         trabajoRepository.deleteById(
@@ -324,44 +423,170 @@ public class TrabajoAdminController {
 
 
     // =========================================================
-    // SERVIR IMAGEN DESDE MYSQL POR ID
+    // MOSTRAR IMAGEN
     // =========================================================
 
-    @GetMapping("/imagen/{id}")
+    @GetMapping("/imagen/{nombre}")
     @ResponseBody
-    public ResponseEntity<byte[]> verImagen(@PathVariable Long id) {
+    public ResponseEntity<Resource> verImagen(
+            @PathVariable String nombre) {
 
-        Trabajo trabajo = trabajoRepository.findById(id).orElse(null);
+        Resource resource =
+                archivoService.cargarImagen(
+                        nombre
+                );
 
-        if (trabajo != null && trabajo.getImagen() != null && trabajo.getImagen().length > 0) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
+        if (resource == null ||
+                !resource.exists()) {
 
-            return new ResponseEntity<>(trabajo.getImagen(), headers, HttpStatus.OK);
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        MediaType tipo =
+                MediaType.IMAGE_JPEG;
+
+        String nombreMinuscula =
+                nombre.toLowerCase();
+
+
+        if (nombreMinuscula.endsWith(".png")) {
+
+            tipo = MediaType.IMAGE_PNG;
+
+        } else if (nombreMinuscula.endsWith(".gif")) {
+
+            tipo = MediaType.IMAGE_GIF;
+
+        } else if (nombreMinuscula.endsWith(".webp")) {
+
+            tipo = MediaType.parseMediaType(
+                    "image/webp"
+            );
+        }
+
+
+        return ResponseEntity
+                .ok()
+                .contentType(tipo)
+                .body(resource);
     }
 
 
     // =========================================================
-    // SERVIR ARCHIVO DESDE MYSQL POR ID
+    // MOSTRAR ARCHIVO
     // =========================================================
 
-    @GetMapping("/archivo/{id}")
+    @GetMapping("/archivo/{nombre}")
     @ResponseBody
-    public ResponseEntity<byte[]> verArchivo(@PathVariable Long id) {
+    public ResponseEntity<Resource> verArchivo(
+            @PathVariable String nombre) {
 
-        Trabajo trabajo = trabajoRepository.findById(id).orElse(null);
+        Resource resource =
+                archivoService.cargarArchivo(
+                        nombre
+                );
 
-        if (trabajo != null && trabajo.getArchivo() != null && trabajo.getArchivo().length > 0) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"documento.pdf\"");
 
-            return new ResponseEntity<>(trabajo.getArchivo(), headers, HttpStatus.OK);
+        // -----------------------------------------------------
+        // ARCHIVO NO ENCONTRADO
+        // -----------------------------------------------------
+
+        if (resource == null ||
+                !resource.exists()) {
+
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // -----------------------------------------------------
+        // TIPO MIME
+        // -----------------------------------------------------
+
+        MediaType tipo =
+                MediaType.APPLICATION_OCTET_STREAM;
+
+        String nombreMinuscula =
+                nombre.toLowerCase();
+
+
+        // PDF
+        if (nombreMinuscula.endsWith(".pdf")) {
+
+            tipo = MediaType.APPLICATION_PDF;
+        }
+
+
+        // WORD
+        else if (nombreMinuscula.endsWith(".doc")) {
+
+            tipo = MediaType.parseMediaType(
+                    "application/msword"
+            );
+        }
+
+        else if (nombreMinuscula.endsWith(".docx")) {
+
+            tipo = MediaType.parseMediaType(
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            );
+        }
+
+
+        // EXCEL
+        else if (nombreMinuscula.endsWith(".xls")) {
+
+            tipo = MediaType.parseMediaType(
+                    "application/vnd.ms-excel"
+            );
+        }
+
+        else if (nombreMinuscula.endsWith(".xlsx")) {
+
+            tipo = MediaType.parseMediaType(
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            );
+        }
+
+
+        // POWERPOINT
+        else if (nombreMinuscula.endsWith(".ppt")) {
+
+            tipo = MediaType.parseMediaType(
+                    "application/vnd.ms-powerpoint"
+            );
+        }
+
+        else if (nombreMinuscula.endsWith(".pptx")) {
+
+            tipo = MediaType.parseMediaType(
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            );
+        }
+
+
+        // TXT
+        else if (nombreMinuscula.endsWith(".txt")) {
+
+            tipo = MediaType.TEXT_PLAIN;
+        }
+
+
+        // -----------------------------------------------------
+        // RESPUESTA
+        // -----------------------------------------------------
+
+        return ResponseEntity
+                .ok()
+                .contentType(tipo)
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=\"" + nombre + "\""
+                )
+                .body(resource);
     }
 }
