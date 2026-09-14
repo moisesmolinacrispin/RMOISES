@@ -314,24 +314,23 @@
 
                 <div class="profile-image-box">
 
-                    <img
-                            class="profile-photo"
+                    <!-- Si tiene foto en Cloudinary (empieza con http) -->
+                    <img class="profile-photo"
+                         th:if="${perfil.foto != null and !perfil.foto.isEmpty() and #strings.startsWith(perfil.foto, 'http')}"
+                         th:src="${perfil.foto}"
+                         th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
 
-                            th:if="${perfil.foto != null and !perfil.foto.isEmpty()}"
+                    <!-- Si tiene foto guardada localmente (nombre de archivo) -->
+                    <img class="profile-photo"
+                         th:if="${perfil.foto != null and !perfil.foto.isEmpty() and !#strings.startsWith(perfil.foto, 'http')}"
+                         th:src="@{'/publico/imagen/' + ${perfil.foto}}"
+                         th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
 
-                            th:src="@{'/publico/imagen/' + ${perfil.foto}}"
-
-                            th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
-
-
-                    <img
-                            class="profile-photo"
-
-                            th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
-
-                            src="images/image_369f5f.jpg"
-
-                            alt="Foto de perfil">
+                    <!-- Si no tiene foto -->
+                    <img class="profile-photo"
+                         th:if="${perfil.foto == null or perfil.foto.isEmpty()}"
+                         src="images/image_369f5f.jpg"
+                         alt="Foto de perfil">
 
                 </div>
 
