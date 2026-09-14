@@ -1124,10 +1124,10 @@
                             class="imagen-wrapper"
                             th:if="${trabajo.imagen != null and !trabajo.imagen.isEmpty()}">
 
-                        <img
-                                class="imagen-trabajo"
-                                th:src="@{/trabajos/imagen/{nombre}(nombre=${trabajo.imagen})}"
-                                th:alt="${trabajo.titulo}">
+                       <img
+                            class="imagen-trabajo"
+                            th:src="${trabajo.imagen}"
+                            th:alt="${trabajo.titulo}">
 
                         <div class="imagen-overlay"></div>
 
@@ -1220,16 +1220,16 @@
 
                             <!-- ARCHIVO -->
 
-                            <a
-                                    th:if="${trabajo.archivo != null and !trabajo.archivo.isEmpty()}"
-                                    th:href="@{/trabajos/archivo/{nombre}(nombre=${trabajo.archivo})}"
-                                    target="_blank"
-                                    rel="noopener noreferrer">
+                         <a
+                           th:if="${trabajo.archivo != null and !trabajo.archivo.isEmpty()}"
+                           th:href="${trabajo.archivo}"
+                           target="_blank"
+                           rel="noopener noreferrer">
 
-                                📎
-                                Ver archivo
+                            📎
+                            Ver archivo
 
-                            </a>
+                         </a>
 
                         </div>
 
