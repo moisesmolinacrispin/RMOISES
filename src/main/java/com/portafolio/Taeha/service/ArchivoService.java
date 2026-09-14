@@ -38,14 +38,10 @@ try {
             archivo.getBytes(),
             ObjectUtils.asMap(
                 "folder", carpeta,
-                "resource_type", "raw",
-                "use_filename", true,
-                "unique_filename", false,
-                "filename_override", archivo.getOriginalFilename() // Fuerza a conservar la extensión y nombre original
+                "resource_type", "raw"
             )
         );
 
-        // Retorna la URL directa HTTPS provista por Cloudinary
         return uploadResult.get("secure_url").toString();
 
     } catch (IOException e) {
