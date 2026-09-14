@@ -19,11 +19,23 @@ public class Trabajo {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    private String archivo;
+    // =========================================================
+    // GUARDAR ARCHIVO E IMAGEN COMO BLOB EN MYSQL (AIVEN)
+    // =========================================================
 
-    private String imagen;
+    @Lob
+    @Column(name = "archivo", columnDefinition = "LONGBLOB")
+    private byte[] archivo;
+
+    @Lob
+    @Column(name = "imagen", columnDefinition = "LONGBLOB")
+    private byte[] imagen;
 
     private String enlace;
+
+
+    public Trabajo() {
+    }
 
 
     public Long getId() {
@@ -62,20 +74,20 @@ public class Trabajo {
     }
 
 
-    public String getArchivo() {
+    public byte[] getArchivo() {
         return archivo;
     }
 
-    public void setArchivo(String archivo) {
+    public void setArchivo(byte[] archivo) {
         this.archivo = archivo;
     }
 
 
-    public String getImagen() {
+    public byte[] getImagen() {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
+    public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
 
