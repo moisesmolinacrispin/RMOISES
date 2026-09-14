@@ -23,6 +23,9 @@ public class TrabajoAdminController {
     private final SemanaRepository semanaRepository;
     private final ArchivoService archivoService;
 
+    // Imagen por defecto en caso de no cargar ninguna o perderse el archivo
+    private static final String DEFAULT_IMAGE = "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop";
+
     public TrabajoAdminController(
             TrabajoRepository trabajoRepository,
             SemanaRepository semanaRepository,
@@ -193,20 +196,33 @@ public class TrabajoAdminController {
                                 imagenArchivo
                         );
 
-                trabajoExistente.setImagen(
-                        nuevaImagen
-                );
+                if (nuevaImagen != null && !nuevaImagen.isBlank()) {
 
-
-                // Eliminar imagen anterior
-
-                if (imagenAnterior != null &&
-                        !imagenAnterior.isBlank()) {
-
-                    archivoService.eliminarImagen(
-                            imagenAnterior
+                    trabajoExistente.setImagen(
+                            nuevaImagen
                     );
+
+
+                    // Eliminar imagen anterior
+
+                    if (imagenAnterior != null &&
+                            !imagenAnterior.isBlank()) {
+
+                        archivoService.eliminarImagen(
+                                imagenAnterior
+                        );
+                    }
                 }
+            }
+
+
+            // Verificar imagen valida
+            if (trabajoExistente.getImagen() == null ||
+                    trabajoExistente.getImagen().isBlank()) {
+
+                trabajoExistente.setImagen(
+                        DEFAULT_IMAGE
+                );
             }
 
 
@@ -225,19 +241,22 @@ public class TrabajoAdminController {
                                 archivoTrabajo
                         );
 
-                trabajoExistente.setArchivo(
-                        nuevoArchivo
-                );
+                if (nuevoArchivo != null && !nuevoArchivo.isBlank()) {
 
-
-                // Eliminar archivo anterior
-
-                if (archivoAnterior != null &&
-                        !archivoAnterior.isBlank()) {
-
-                    archivoService.eliminarArchivo(
-                            archivoAnterior
+                    trabajoExistente.setArchivo(
+                            nuevoArchivo
                     );
+
+
+                    // Eliminar archivo anterior
+
+                    if (archivoAnterior != null &&
+                            !archivoAnterior.isBlank()) {
+
+                        archivoService.eliminarArchivo(
+                                archivoAnterior
+                        );
+                    }
                 }
             }
 
@@ -277,6 +296,16 @@ public class TrabajoAdminController {
 
             trabajo.setImagen(
                     nombreImagen
+            );
+        }
+
+
+        // Asignar fallback si no existe imagen
+        if (trabajo.getImagen() == null ||
+                trabajo.getImagen().isBlank()) {
+
+            trabajo.setImagen(
+                    DEFAULT_IMAGE
             );
         }
 
@@ -430,6 +459,15 @@ public class TrabajoAdminController {
     @ResponseBody
     public ResponseEntity<Resource> verImagen(
             @PathVariable String nombre) {
+
+        if (nombre == null || nombre.isBlank() ||
+                nombre.startsWith("http://") ||
+                nombre.startsWith("https://")) {
+
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
 
         Resource resource =
                 archivoService.cargarImagen(
