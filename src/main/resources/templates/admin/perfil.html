@@ -13,17 +13,29 @@
 
     <style>
 
+        /* =====================================================
+           RESET & GLOBALES
+           ===================================================== */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
         body {
             font-family: Inter, Arial, Helvetica, sans-serif;
-            background: #080b12;
+            background-color: #080b12;
             color: #ffffff;
             overflow-x: hidden;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* =====================================================
@@ -31,24 +43,33 @@
            ===================================================== */
 
         .page {
+            width: 100%;
             min-height: 100vh;
 
-            background:
+            background-color: #080b12;
+
+            background-image:
                     radial-gradient(
                             circle at 85% 5%,
-                            rgba(66, 232, 255, .07),
+                            rgba(66, 232, 255, 0.07),
                             transparent 25%
                     ),
                     radial-gradient(
                             circle at 45% 90%,
-                            rgba(124, 255, 107, .05),
+                            rgba(124, 255, 107, 0.05),
                             transparent 30%
                     );
+
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .main {
             margin-left: 250px;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         /* =====================================================
@@ -57,22 +78,25 @@
 
         .topbar {
             height: 82px;
-            padding: 0 35px;
+            padding-left: 35px;
+            padding-right: 35px;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
 
-            background: rgba(8, 11, 18, .88);
+            background: rgba(8, 11, 18, 0.88);
 
-            border-bottom:
-                    1px solid rgba(255,255,255,.07);
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgba(255, 255, 255, 0.07);
 
             position: sticky;
             top: 0;
             z-index: 100;
 
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
         .topbar-left {
@@ -89,19 +113,25 @@
             align-items: center;
             justify-content: center;
 
-            border:
-                    1px solid rgba(124,255,107,.4);
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(124, 255, 107, 0.4);
 
             color: #7cff6b;
 
             font-size: 18px;
             font-weight: 900;
+
+            background: rgba(124, 255, 107, 0.03);
         }
 
         .topbar-left h1 {
             font-size: 21px;
             font-weight: 800;
-            letter-spacing: -.5px;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
         }
 
         .topbar-left span {
@@ -110,6 +140,7 @@
 
             color: #697587;
             font-size: 12px;
+            font-weight: 400;
         }
 
         .admin {
@@ -136,6 +167,7 @@
 
             color: #697587;
             font-size: 11px;
+            font-weight: 500;
         }
 
         .avatar {
@@ -148,7 +180,7 @@
 
             border-radius: 50%;
 
-            background:
+            background-image:
                     linear-gradient(
                             135deg,
                             #7cff6b,
@@ -161,7 +193,7 @@
             font-weight: 900;
 
             box-shadow:
-                    0 0 25px rgba(124,255,107,.15);
+                    0 0 25px rgba(124, 255, 107, 0.15);
         }
 
         /* =====================================================
@@ -169,8 +201,14 @@
            ===================================================== */
 
         .content {
-            padding: 45px 40px 70px;
+            padding-top: 45px;
+            padding-right: 40px;
+            padding-bottom: 70px;
+            padding-left: 40px;
             max-width: 1250px;
+            width: 100%;
+            margin-left: 0;
+            margin-right: auto;
         }
 
         .header {
@@ -188,6 +226,8 @@
             letter-spacing: 4px;
 
             margin-bottom: 12px;
+
+            text-transform: uppercase;
         }
 
         .header h2 {
@@ -198,6 +238,8 @@
             letter-spacing: -2px;
 
             margin-bottom: 14px;
+
+            font-weight: 900;
         }
 
         .header h2 span {
@@ -211,6 +253,7 @@
 
             font-size: 14px;
             line-height: 1.8;
+            font-weight: 400;
         }
 
         /* =====================================================
@@ -219,15 +262,16 @@
 
         .form-container {
 
-            background:
+            background-image:
                     linear-gradient(
                             145deg,
                             #10151e,
                             #0c1017
                     );
 
-            border:
-                    1px solid rgba(255,255,255,.07);
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.07);
 
             padding: 35px;
 
@@ -246,7 +290,7 @@
             width: 65px;
             height: 2px;
 
-            background:
+            background-image:
                     linear-gradient(
                             90deg,
                             #7cff6b,
@@ -264,12 +308,15 @@
 
             padding-bottom: 35px;
 
-            border-bottom:
-                    1px solid rgba(255,255,255,.06);
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgba(255, 255, 255, 0.06);
         }
 
         .seccion:last-of-type {
             border-bottom: none;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
         }
 
         .seccion h2 {
@@ -284,6 +331,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            letter-spacing: -0.2px;
         }
 
         .seccion h2::before {
@@ -293,7 +341,7 @@
             width: 4px;
             height: 18px;
 
-            background: #7cff6b;
+            background-color: #7cff6b;
 
             display: inline-block;
         }
@@ -306,8 +354,7 @@
 
             display: grid;
 
-            grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
 
             gap: 22px;
         }
@@ -342,51 +389,49 @@
 
             width: 100%;
 
-            padding: 14px 15px;
+            padding-top: 14px;
+            padding-right: 15px;
+            padding-bottom: 14px;
+            padding-left: 15px;
 
-            border:
-                    1px solid rgba(255,255,255,.09);
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.09);
 
-            border-radius: 0;
+            border-radius: 0px;
 
-            background:
-                    rgba(255,255,255,.025);
+            background-color: rgba(255, 255, 255, 0.025);
 
             color: #ffffff;
 
-            font-family:
-                    Inter,
-                    Arial,
-                    sans-serif;
+            font-family: Inter, Arial, sans-serif;
 
             font-size: 13px;
 
             outline: none;
 
-            transition:
-                    border-color .3s ease,
-                    background .3s ease,
-                    box-shadow .3s ease;
+            transition-property: border-color, background-color, box-shadow;
+            transition-duration: 0.3s;
+            transition-timing-function: ease;
         }
 
         .campo input::placeholder,
         .campo textarea::placeholder {
 
             color: #4f5b6b;
+            opacity: 1;
         }
 
         .campo input:focus,
         .campo textarea:focus {
 
-            border-color:
-                    rgba(124,255,107,.55);
+            border-color: rgba(124, 255, 107, 0.55);
 
-            background:
-                    rgba(124,255,107,.025);
+            background-color: rgba(124, 255, 107, 0.025);
 
             box-shadow:
                     0 0 0 3px
-                    rgba(124,255,107,.04);
+                    rgba(124, 255, 107, 0.04);
         }
 
         .campo textarea {
@@ -419,11 +464,11 @@
 
             padding: 25px;
 
-            border:
-                    1px solid rgba(255,255,255,.07);
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.07);
 
-            background:
-                    rgba(255,255,255,.015);
+            background-color: rgba(255, 255, 255, 0.015);
         }
 
         .foto-box input[type="file"] {
@@ -439,12 +484,14 @@
 
             margin-right: 12px;
 
-            padding: 9px 13px;
+            padding-top: 9px;
+            padding-right: 13px;
+            padding-bottom: 9px;
+            padding-left: 13px;
 
             border: none;
 
-            background:
-                    rgba(124,255,107,.10);
+            background-color: rgba(124, 255, 107, 0.10);
 
             color: #7cff6b;
 
@@ -453,6 +500,12 @@
             font-size: 11px;
 
             font-weight: 700;
+
+            transition: background-color 0.2s ease;
+        }
+
+        .foto-box input[type="file"]::file-selector-button:hover {
+            background-color: rgba(124, 255, 107, 0.20);
         }
 
         .foto-actual {
@@ -461,8 +514,9 @@
 
             padding-top: 25px;
 
-            border-top:
-                    1px solid rgba(255,255,255,.06);
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: rgba(255, 255, 255, 0.06);
         }
 
         .foto-actual p {
@@ -477,6 +531,7 @@
         .foto-actual p strong {
 
             color: #ffffff;
+            font-weight: 700;
         }
 
         .profile-preview {
@@ -488,14 +543,15 @@
 
             border-radius: 50%;
 
-            border:
-                    3px solid #7cff6b;
+            border-width: 3px;
+            border-style: solid;
+            border-color: #7cff6b;
 
             display: block;
 
             box-shadow:
                     0 0 30px
-                    rgba(124,255,107,.12);
+                    rgba(124, 255, 107, 0.12);
         }
 
         /* =====================================================
@@ -510,14 +566,17 @@
 
             gap: 12px;
 
-            margin-top: 5px;
+            margin-top: 25px;
         }
 
         .btn {
 
             border: none;
 
-            padding: 13px 22px;
+            padding-top: 13px;
+            padding-right: 22px;
+            padding-bottom: 13px;
+            padding-left: 22px;
 
             font-size: 12px;
 
@@ -527,46 +586,50 @@
 
             text-decoration: none;
 
-            transition: .3s;
+            transition-property: transform, background-color, border-color, box-shadow, color;
+            transition-duration: 0.3s;
+            transition-timing-function: ease;
 
-            letter-spacing: .3px;
+            letter-spacing: 0.3px;
+
+            display: inline-block;
+            text-align: center;
         }
 
         .btn-guardar {
 
-            background: #7cff6b;
+            background-color: #7cff6b;
 
             color: #080b12;
         }
 
         .btn-guardar:hover {
 
-            background: #a0ff92;
+            background-color: #a0ff92;
 
             transform: translateY(-2px);
 
             box-shadow:
                     0 8px 25px
-                    rgba(124,255,107,.15);
+                    rgba(124, 255, 107, 0.15);
         }
 
         .btn-cancelar {
 
-            background:
-                    rgba(255,255,255,.06);
+            background-color: rgba(255, 255, 255, 0.06);
 
             color: #8995a5;
 
-            border:
-                    1px solid rgba(255,255,255,.08);
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.08);
         }
 
         .btn-cancelar:hover {
 
             color: #ffffff;
 
-            border-color:
-                    rgba(255,255,255,.2);
+            border-color: rgba(255, 255, 255, 0.2);
 
             transform: translateY(-2px);
         }
@@ -581,8 +644,9 @@
 
             padding-top: 22px;
 
-            border-top:
-                    1px solid rgba(255,255,255,.06);
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: rgba(255, 255, 255, 0.06);
 
             display: flex;
 
@@ -593,14 +657,21 @@
             color: #465161;
 
             font-size: 10px;
+
+            padding-bottom: 20px;
+        }
+
+        .footer span {
+            display: inline-block;
         }
 
         .footer strong {
             color: #7cff6b;
+            font-weight: 700;
         }
 
         /* =====================================================
-           RESPONSIVE
+           RESPONSIVE DESIGN
            ===================================================== */
 
         @media (max-width: 900px) {
@@ -610,12 +681,15 @@
             }
 
             .content {
-                padding: 30px 25px 50px;
+                padding-top: 30px;
+                padding-right: 25px;
+                padding-bottom: 50px;
+                padding-left: 25px;
             }
 
             .fila {
                 grid-template-columns: 1fr;
-                gap: 0;
+                gap: 0px;
             }
 
         }
@@ -623,12 +697,13 @@
         @media (max-width: 600px) {
 
             .main {
-                margin-left: 0;
+                margin-left: 0px;
             }
 
             .topbar {
                 height: 70px;
-                padding: 0 18px;
+                padding-left: 18px;
+                padding-right: 18px;
             }
 
             .topbar-mark {
@@ -648,7 +723,10 @@
             }
 
             .content {
-                padding: 25px 16px 45px;
+                padding-top: 25px;
+                padding-right: 16px;
+                padding-bottom: 45px;
+                padding-left: 16px;
             }
 
             .form-container {
@@ -666,6 +744,7 @@
 
             .btn {
                 text-align: center;
+                width: 100%;
             }
 
             .footer {
@@ -685,21 +764,21 @@
 <div class="page">
 
     <!-- =====================================================
-         SIDEBAR
+         SIDEBAR LAYOUT
          ===================================================== -->
 
     <div th:replace="~{fragments/sidebar :: sidebar('perfil')}"></div>
 
 
     <!-- =====================================================
-         CONTENIDO PRINCIPAL
+         CONTENIDO PRINCIPAL Y ZONA ADMINISTRATIVA
          ===================================================== -->
 
     <main class="main">
 
 
         <!-- =================================================
-             TOPBAR
+             TOPBAR HEADER
              ================================================= -->
 
         <header class="topbar">
@@ -749,13 +828,13 @@
 
 
         <!-- =================================================
-             CONTENIDO
+             CONTENIDO DE LA PAGINA
              ================================================= -->
 
         <section class="content">
 
 
-            <!-- ENCABEZADO -->
+            <!-- ENCABEZADO DE SECCION -->
 
             <div class="header">
 
@@ -779,7 +858,7 @@
 
 
             <!-- =================================================
-                 FORMULARIO
+                 FORMULARIO DE EDICION
                  ================================================= -->
 
             <div class="form-container">
@@ -791,15 +870,17 @@
                         enctype="multipart/form-data">
 
 
-                    <!-- ID -->
+                    <!-- CAMPO OCULTO IDENTIFICADOR -->
 
                     <input
                             type="hidden"
+                            id="id"
+                            name="id"
                             th:field="*{id}">
 
 
                     <!-- =================================================
-                         INFORMACIÓN PERSONAL
+                         SECCION: INFORMACIÓN PERSONAL
                          ================================================= -->
 
                     <div class="seccion">
@@ -811,7 +892,7 @@
 
                         <div class="fila">
 
-                            <!-- NOMBRES -->
+                            <!-- CAMPO: NOMBRES -->
 
                             <div class="campo">
 
@@ -822,14 +903,15 @@
                                 <input
                                         type="text"
                                         id="nombre"
+                                        name="nombre"
                                         th:field="*{nombre}"
                                         placeholder="Ejemplo: Moises"
-                                        required>
+                                        required="required">
 
                             </div>
 
 
-                            <!-- APELLIDOS -->
+                            <!-- CAMPO: APELLIDOS -->
 
                             <div class="campo">
 
@@ -840,9 +922,10 @@
                                 <input
                                         type="text"
                                         id="apellidos"
+                                        name="apellidos"
                                         th:field="*{apellidos}"
                                         placeholder="Ejemplo: Molina Crispin"
-                                        required>
+                                        required="required">
 
                             </div>
 
@@ -851,7 +934,7 @@
 
                         <div class="fila">
 
-                            <!-- CARRERA -->
+                            <!-- CAMPO: CARRERA -->
 
                             <div class="campo">
 
@@ -862,14 +945,15 @@
                                 <input
                                         type="text"
                                         id="carrera"
+                                        name="carrera"
                                         th:field="*{carrera}"
                                         placeholder="Diseño y Programación Web"
-                                        required>
+                                        required="required">
 
                             </div>
 
 
-                            <!-- INSTITUTO -->
+                            <!-- CAMPO: INSTITUTO -->
 
                             <div class="campo">
 
@@ -880,9 +964,10 @@
                                 <input
                                         type="text"
                                         id="instituto"
+                                        name="instituto"
                                         th:field="*{instituto}"
                                         placeholder="Instituto Andrés Avelino Cáceres Dorregaray"
-                                        required>
+                                        required="required">
 
                             </div>
 
@@ -892,7 +977,7 @@
 
 
                     <!-- =================================================
-                         PRESENTACIÓN
+                         SECCION: PRESENTACIÓN
                          ================================================= -->
 
                     <div class="seccion">
@@ -902,7 +987,7 @@
                         </h2>
 
 
-                        <!-- DESCRIPCIÓN -->
+                        <!-- CAMPO: DESCRIPCIÓN CORTE -->
 
                         <div class="campo">
 
@@ -912,14 +997,15 @@
 
                             <textarea
                                     id="descripcion"
+                                    name="descripcion"
                                     th:field="*{descripcion}"
                                     placeholder="Escribe una breve presentación sobre ti..."
-                                    required></textarea>
+                                    required="required"></textarea>
 
                         </div>
 
 
-                        <!-- SOBRE MÍ -->
+                        <!-- CAMPO: SOBRE MÍ -->
 
                         <div class="campo">
 
@@ -929,6 +1015,7 @@
 
                             <textarea
                                     id="sobreMi"
+                                    name="sobreMi"
                                     th:field="*{sobreMi}"
                                     placeholder="Cuéntanos más sobre ti, tus intereses, objetivos y experiencia..."></textarea>
 
@@ -938,7 +1025,7 @@
 
 
                     <!-- =================================================
-                         CONTACTO
+                         SECCION: CONTACTO
                          ================================================= -->
 
                     <div class="seccion">
@@ -951,7 +1038,7 @@
                         <div class="fila">
 
 
-                            <!-- CORREO -->
+                            <!-- CAMPO: CORREO ELECTRONICO -->
 
                             <div class="campo">
 
@@ -962,13 +1049,14 @@
                                 <input
                                         type="email"
                                         id="correo"
+                                        name="correo"
                                         th:field="*{correo}"
                                         placeholder="correo@ejemplo.com">
 
                             </div>
 
 
-                            <!-- TELÉFONO -->
+                            <!-- CAMPO: TELÉFONO DE CONTACTO -->
 
                             <div class="campo">
 
@@ -979,6 +1067,7 @@
                                 <input
                                         type="text"
                                         id="telefono"
+                                        name="telefono"
                                         th:field="*{telefono}"
                                         placeholder="+51 999 999 999">
 
@@ -990,7 +1079,7 @@
 
 
                     <!-- =================================================
-                         REDES
+                         SECCION: REDES SOCIALES
                          ================================================= -->
 
                     <div class="seccion">
@@ -1003,7 +1092,7 @@
                         <div class="fila">
 
 
-                            <!-- GITHUB -->
+                            <!-- CAMPO: GITHUB -->
 
                             <div class="campo">
 
@@ -1014,13 +1103,14 @@
                                 <input
                                         type="url"
                                         id="github"
+                                        name="github"
                                         th:field="*{github}"
                                         placeholder="https://github.com/usuario">
 
                             </div>
 
 
-                            <!-- LINKEDIN -->
+                            <!-- CAMPO: LINKEDIN -->
 
                             <div class="campo">
 
@@ -1031,6 +1121,7 @@
                                 <input
                                         type="url"
                                         id="linkedin"
+                                        name="linkedin"
                                         th:field="*{linkedin}"
                                         placeholder="https://linkedin.com/in/usuario">
 
@@ -1042,7 +1133,7 @@
 
 
                     <!-- =================================================
-                         FOTO DE PERFIL
+                         SECCION: FOTO DE PERFIL
                          ================================================= -->
 
                     <div class="seccion">
@@ -1055,7 +1146,7 @@
                         <div class="foto-box">
 
 
-                            <!-- SELECCIONAR FOTO -->
+                            <!-- SELECCIONAR ARCHIVO DE FOTO -->
 
                             <div class="campo">
 
@@ -1078,11 +1169,11 @@
                             </div>
 
 
-                            <!-- FOTO ACTUAL -->
+                            <!-- MUESTRA DE FOTO ACTUAL -->
 
                             <div
                                     class="foto-actual"
-                                    th:if="${perfil.foto != null and !perfil.foto.isEmpty()}">
+                                    th:if="${perfil.foto != null and !#strings.isEmpty(perfil.foto)}">
 
                                 <p>
                                     <strong>
@@ -1092,7 +1183,7 @@
 
                                 <img
                                         class="profile-preview"
-                                        th:src="@{'/publico/imagen/' + ${perfil.foto}}"
+                                        th:src="${perfil.foto}"
                                         th:alt="${perfil.nombre + ' ' + perfil.apellidos}">
 
                             </div>
@@ -1103,7 +1194,7 @@
 
 
                     <!-- =================================================
-                         BOTONES
+                         BOTONES DE ACCIÓN
                          ================================================= -->
 
                     <div class="botones">
@@ -1134,10 +1225,10 @@
 
 
             <!-- =================================================
-                 FOOTER
+                 FOOTER DEL PANEL
                  ================================================= -->
 
-            <div class="footer">
+            <footer class="footer">
 
                 <span>
                     PORTAFOLIO · ADMIN PANEL · 2026
@@ -1153,7 +1244,7 @@
 
                 </span>
 
-            </div>
+            </footer>
 
 
         </section>
