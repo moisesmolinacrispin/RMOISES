@@ -3,16 +3,10 @@ package com.portafolio.Taeha.controller.admin;
 import com.portafolio.Taeha.model.Perfil;
 import com.portafolio.Taeha.repository.PerfilRepository;
 import com.portafolio.Taeha.service.ArchivoService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin/perfil")
@@ -64,7 +58,7 @@ public class PerfilAdminController {
             @ModelAttribute Perfil perfil,
 
             @RequestParam(value = "archivoFoto", required = false)
-            MultipartFile archivoFoto) throws IOException {
+            MultipartFile archivoFoto) {
 
 
         Perfil perfilGuardar;
@@ -145,13 +139,32 @@ public class PerfilAdminController {
 
 
         // ======================================
-        // FOTO (GUARDAR DIRECTO EN MYSQL)
+        // FOTO
         // ======================================
 
         if (archivoFoto != null && !archivoFoto.isEmpty()) {
 
-            // Asignar los bytes del archivo directamente al perfil
-            perfilGuardar.setFoto(archivoFoto.getBytes());
+            // Si ya existe una foto,
+            // eliminarla físicamente
+
+            if (perfilGuardar.getFoto() != null
+                    && !perfilGuardar.getFoto().isBlank()) {
+
+                archivoService.eliminarImagen(
+                        perfilGuardar.getFoto()
+                );
+            }
+
+
+            // Guardar nueva foto
+
+            String nombreFoto =
+                    archivoService.guardarImagen(archivoFoto);
+
+
+            // Guardar nombre en MySQL
+
+            perfilGuardar.setFoto(nombreFoto);
         }
 
 
@@ -167,27 +180,5 @@ public class PerfilAdminController {
         // ======================================
 
         return "redirect:/admin/perfil";
-    }
-
-
-    // ==========================================
-    // VER / SERVIR FOTO DESDE MYSQL
-    // ==========================================
-
-    @GetMapping("/foto/{id}")
-    @ResponseBody
-    public ResponseEntity<byte[]> obtenerFoto(@PathVariable Long id) {
-
-        Perfil perfil = perfilRepository.findById(id).orElse(null);
-
-        if (perfil != null && perfil.getFoto() != null && perfil.getFoto().length > 0) {
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-
-            return new ResponseEntity<>(perfil.getFoto(), headers, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
