@@ -39,8 +39,9 @@ try {
             ObjectUtils.asMap(
                 "folder", carpeta,
                 "resource_type", "raw",
-                "use_filename", true,       // <--- Agrégalo aquí
-                "unique_filename", false    // <--- Agrégalo aquí
+                "use_filename", true,
+                "unique_filename", false,
+                "filename_override", archivo.getOriginalFilename() // Fuerza a conservar la extensión y nombre original
             )
         );
 
