@@ -8,8 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/admin/perfil")
 public class PerfilAdminController {
@@ -146,12 +144,27 @@ public class PerfilAdminController {
 
         if (archivoFoto != null && !archivoFoto.isEmpty()) {
 
-            try {
-                // Guardar foto directamente en bytes
-                perfilGuardar.setFoto(archivoFoto.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
+            // Si ya existe una foto,
+            // eliminarla físicamente
+
+            if (perfilGuardar.getFoto() != null
+                    && !perfilGuardar.getFoto().isBlank()) {
+
+                archivoService.eliminarImagen(
+                        perfilGuardar.getFoto()
+                );
             }
+
+
+            // Guardar nueva foto
+
+            String nombreFoto =
+                    archivoService.guardarImagen(archivoFoto);
+
+
+            // Guardar nombre en MySQL
+
+            perfilGuardar.setFoto(nombreFoto);
         }
 
 
