@@ -630,11 +630,11 @@ public class TrabajoAdminController {
     }
 
 // =========================================================
-    // DESCARGAR ARCHIVO DESDE CLOUDINARY CON NOMBRE ORIGINAL
+    // VER ARCHIVO DESDE CLOUDINARY CON NOMBRE ORIGINAL (EN PESTAÑA NUEVA)
     // =========================================================
 
-    @GetMapping("/ver-archivo") // <-- Cambiado aquí para que coincida con tu vista HTML
-    public ResponseEntity<byte[]> descargarArchivo(
+    @GetMapping("/ver-archivo")
+    public ResponseEntity<byte[]> verArchivo(
             @RequestParam("url") String cloudinaryUrl,  
             @RequestParam("nombre") String nombreArchivo) {
         try {
@@ -643,18 +643,26 @@ public class TrabajoAdminController {
             byte[] bytes = in.readAllBytes();
             in.close();
 
+            if (nombreArchivo == null || nombreArchivo.isBlank()) {
+                nombreArchivo = "archivo";
+            }
             if (!nombreArchivo.toLowerCase().endsWith(".pdf")) {
                 nombreArchivo += ".pdf";
             }
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("inline", nombreArchivo);
+            
+            // CORRECCIÓN DEFINITIVA: Usar ContentDisposition.inline para forzar la visualización en el navegador
+            org.springframework.http.ContentDisposition contentDisposition = 
+                org.springframework.http.ContentDisposition.inline()
+                    .filename(nombreArchivo, java.nio.charset.StandardCharsets.UTF_8)
+                    .build();
+            headers.setContentDisposition(contentDisposition);
 
             return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
 
         } catch (Exception e) {
-            // AQUÍ ESTÁ LA CORRECCIÓN: Se envía un array de bytes vacío junto con el error
             return new ResponseEntity<>(new byte[0], HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
