@@ -1006,106 +1006,51 @@
      TRABAJOS
      ================================================= -->
 
-        <section style="padding-top: 20px; padding-bottom: 20px;">
+        <section style="padding: 40px 20px; max-width: 1200px; margin: 0 auto;">
 
-            <div class="works-heading" style="padding-left: 0 !important; margin-left: -50px;">
-
-                <div style="width: 100%;">
-
-                    <small>
-                        PORTAFOLIO ACADÉMICO
-                    </small>
-
-                    <h2>
-                        Lo que hice esta semana
-                    </h2>
-
-                    <!-- Párrafo más extendido y fluido a lo ancho -->
-                    <p style="margin-top: 12px; color: #a0a0a0; font-size: 1rem; line-height: 1.5; text-align: left; max-width: 650px;">
-                        Aquí puedes explorar los trabajos, proyectos y recursos que desarrollé durante esta etapa de aprendizaje.
-                    </p>
-
-                </div>
-
+            <!-- Encabezado alineado a la izquierda -->
+            <div class="works-heading" style="margin-bottom: 40px; text-align: left;">
+                <small style="color: #00ff66; font-weight: bold; letter-spacing: 1px;">
+                    PORTAFOLIO ACADÉMICO
+                </small>
+                <h2 style="color: #ffffff; font-size: 2.2rem; margin-top: 8px; margin-bottom: 12px;">
+                    Lo que hice esta semana
+                </h2>
+                <p style="color: #a0a0a0; font-size: 1rem; line-height: 1.5; max-width: 700px;">
+                    Aquí puedes explorar los trabajos, proyectos y recursos que desarrollé durante esta etapa de aprendizaje.
+                </p>
             </div>
-        </section>
-            <!-- =================================================
-                 GRID
-                 ================================================= -->
 
-            <div
-                class="works-grid"
-                th:if="${not #lists.isEmpty(trabajos)}"
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto; padding-left: 0 !important; margin-left: -50px;">
+            <!-- Cuadrícula limpia de 2 columnas para las tarjetas -->
+            <div class="works-grid"
+                 th:if="${not #lists.isEmpty(trabajos)}"
+                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; width: 100%;">
 
-
-                <article
-                        class="work-card"
-                        th:each="trabajo, iter : ${trabajos}">
-
-
+                <article class="work-card" th:each="trabajo, iter : ${trabajos}">
+                    
                     <!-- IMAGEN -->
-
-                  <div
-    class="work-image-container"
-    th:if="${trabajo.imagen != null and !trabajo.imagen.isEmpty()}">
-
-    <img
-        class="work-image"
-        th:src="${trabajo.imagen}"
-        th:alt="${trabajo.titulo}">
-
-    <div class="image-overlay"></div>
-
-</div>
-
-                    <!-- SIN IMAGEN -->
-
-                    <div
-                            class="no-image"
-
-                            th:unless="${trabajo.imagen != null
-                            and !trabajo.imagen.isEmpty()}">
-
-                        <div class="no-image-icon">
-                            ◈
-                        </div>
-
-                        Sin imagen disponible
-
+                    <div class="work-image-container" th:if="${trabajo.imagen != null and !trabajo.imagen.isEmpty()}">
+                        <img class="work-image" th:src="${trabajo.imagen}" th:alt="${trabajo.titulo}">
+                        <div class="image-overlay"></div>
                     </div>
 
+                    <!-- SIN IMAGEN -->
+                    <div class="no-image" th:unless="${trabajo.imagen != null and !trabajo.imagen.isEmpty()}">
+                        <div class="no-image-icon">◈</div>
+                        Sin imagen disponible
+                    </div>
 
                     <!-- CONTENIDO -->
-
                     <div class="work-content">
-
-
                         <div class="work-index"
-                             th:text="'PROYECTO ' +
-                             (${iter.index + 1 < 10}
-                             ? '0' + (${iter.index + 1})
-                             : (${iter.index + 1}))">
-
+                             th:text="'PROYECTO ' + (${iter.index + 1 < 10} ? '0' + (${iter.index + 1}) : (${iter.index + 1}))">
                             PROYECTO 01
-
                         </div>
 
+                        <h3 th:text="${trabajo.titulo}">Trabajo</h3>
 
-                        <h3
-                                th:text="${trabajo.titulo}">
-
-                            Trabajo
-
-                        </h3>
-
-
-                        <p
-                                th:if="${trabajo.descripcion != null
-                                and !trabajo.descripcion.isEmpty()}"
-
-                                th:text="${trabajo.descripcion}">
-
+                        <p th:if="${trabajo.descripcion != null and !trabajo.descripcion.isEmpty()}"
+                           th:text="${trabajo.descripcion}">
                             Descripción del trabajo.
 
                         </p>
