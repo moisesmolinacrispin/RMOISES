@@ -1220,10 +1220,9 @@
 
                             <!-- ARCHIVO -->
 
-                       <a
+      <a
     th:if="${trabajo.archivo != null and !trabajo.archivo.isEmpty()}"
-    th:href="${trabajo.archivo}"
-    th:download="${trabajo.titulo + '.pdf'}"
+    th:href="@{/admin/trabajos/descargar-archivo(url=${trabajo.archivo}, nombre=${trabajo.titulo})}"
     target="_blank"
     rel="noopener noreferrer">
 
@@ -1231,7 +1230,6 @@
     Ver archivo
 
 </a>
-
                         </div>
 
 
