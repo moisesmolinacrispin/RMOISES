@@ -1051,22 +1051,18 @@
 
                     <!-- IMAGEN -->
 
-                    <div
-                            class="work-image-container"
-                            th:if="${trabajo.imagen != null
-                            and !trabajo.imagen.isEmpty()}">
+                  <div
+    class="work-image-container"
+    th:if="${trabajo.imagen != null and !trabajo.imagen.isEmpty()}">
 
-                        <img
-                                class="work-image"
+    <img
+        class="work-image"
+        th:src="${trabajo.imagen}"
+        th:alt="${trabajo.titulo}">
 
-                                th:src="@{/trabajos/imagen/{nombre}(nombre=${trabajo.imagen})}"
+    <div class="image-overlay"></div>
 
-                                th:alt="${trabajo.titulo}">
-
-                        <div class="image-overlay"></div>
-
-                    </div>
-
+</div>
 
                     <!-- SIN IMAGEN -->
 
