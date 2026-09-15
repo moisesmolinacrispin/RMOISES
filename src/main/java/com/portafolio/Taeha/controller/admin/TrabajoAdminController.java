@@ -629,8 +629,7 @@ public class TrabajoAdminController {
                 .body(resource);
     }
 
-
-    // =========================================================
+// =========================================================
     // DESCARGAR ARCHIVO DESDE CLOUDINARY CON NOMBRE ORIGINAL
     // =========================================================
 
@@ -655,7 +654,8 @@ public class TrabajoAdminController {
             return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            // AQUÍ ESTÁ LA CORRECCIÓN: Se envía un array de bytes vacío junto con el error
+            return new ResponseEntity<>(new byte[0], HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
