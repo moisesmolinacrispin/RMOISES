@@ -649,7 +649,7 @@ public class TrabajoAdminController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", nombreArchivo);
+            headers.setContentDispositionFormData("inline", nombreArchivo);
 
             return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
 
