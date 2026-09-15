@@ -1030,10 +1030,10 @@
             </div>
         </section>
 
-            <!-- Cuadrícula limpia de 2 columnas para las tarjetas -->
+           <!-- Cuadrícula limpia para las tarjetas -->
             <div class="works-grid"
                  th:if="${not #lists.isEmpty(trabajos)}"
-                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; width: 100%;">
+                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto;">
 
                 <article class="work-card" th:each="trabajo, iter : ${trabajos}">
                     
