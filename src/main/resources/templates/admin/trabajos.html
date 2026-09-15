@@ -1220,15 +1220,12 @@
 
                             <!-- ARCHIVO -->
 
-      <a
-    th:if="${trabajo.archivo != null and !trabajo.archivo.isEmpty()}"
-    th:href="@{/admin/trabajos/descargar-archivo(url=${trabajo.archivo}, nombre=${trabajo.titulo})}"
-    target="_blank"
-    rel="noopener noreferrer">
-
+<a th:if="${trabajo.archivo != null and !trabajo.archivo.isEmpty()}"
+   th:href="@{/admin/trabajos/ver-archivo(url=${trabajo.archivo}, nombre=${trabajo.titulo})}"
+   target="_blank"
+   rel="noopener noreferrer">
     📎
     Ver archivo
-
 </a>
                         </div>
 
