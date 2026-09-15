@@ -8,6 +8,7 @@ import com.portafolio.Taeha.service.ArchivoService;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -627,6 +628,8 @@ public class TrabajoAdminController {
                 )
                 .body(resource);
     }
+
+
     // =========================================================
     // DESCARGAR ARCHIVO DESDE CLOUDINARY CON NOMBRE ORIGINAL
     // =========================================================
