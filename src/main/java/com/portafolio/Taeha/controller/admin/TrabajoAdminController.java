@@ -633,9 +633,9 @@ public class TrabajoAdminController {
     // DESCARGAR ARCHIVO DESDE CLOUDINARY CON NOMBRE ORIGINAL
     // =========================================================
 
-    @GetMapping("/descargar-archivo")
+    @GetMapping("/ver-archivo") // <-- Cambiado aquí para que coincida con tu vista HTML
     public ResponseEntity<byte[]> descargarArchivo(
-            @RequestParam("url") String cloudinaryUrl, 
+            @RequestParam("url") String cloudinaryUrl,  
             @RequestParam("nombre") String nombreArchivo) {
         try {
             java.net.URL url = new java.net.URL(cloudinaryUrl);
