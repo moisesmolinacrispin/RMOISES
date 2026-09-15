@@ -1034,8 +1034,9 @@
                  ================================================= -->
 
             <div
-                    class="works-grid"
-                    th:if="${not #lists.isEmpty(trabajos)}">
+                class="works-grid"
+                th:if="${not #lists.isEmpty(trabajos)}"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; width: 100%; max-width: 1200px; margin: 0 auto; padding-left: 0 !important; margin-left: -50px;">
 
 
                 <article
