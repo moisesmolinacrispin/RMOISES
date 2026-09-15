@@ -1251,10 +1251,9 @@
 
                                 </p>
 
-                                <img
-                                        th:src="@{'/admin/trabajos/imagen/' + ${trabajo.imagen}}"
-                                        alt="Imagen actual del trabajo">
-
+                               <img
+    th:src="${trabajo.imagen}"
+    alt="Imagen actual del trabajo">
                             </div>
 
                         </div>
