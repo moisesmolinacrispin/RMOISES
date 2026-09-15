@@ -627,4 +627,32 @@ public class TrabajoAdminController {
                 )
                 .body(resource);
     }
+    // =========================================================
+    // DESCARGAR ARCHIVO DESDE CLOUDINARY CON NOMBRE ORIGINAL
+    // =========================================================
+
+    @GetMapping("/descargar-archivo")
+    public ResponseEntity<byte[]> descargarArchivo(
+            @RequestParam("url") String cloudinaryUrl, 
+            @RequestParam("nombre") String nombreArchivo) {
+        try {
+            java.net.URL url = new java.net.URL(cloudinaryUrl);
+            java.io.InputStream in = url.openStream();
+            byte[] bytes = in.readAllBytes();
+            in.close();
+
+            if (!nombreArchivo.toLowerCase().endsWith(".pdf")) {
+                nombreArchivo += ".pdf";
+            }
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", nombreArchivo);
+
+            return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
